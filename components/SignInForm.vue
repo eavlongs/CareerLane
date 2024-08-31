@@ -31,25 +31,13 @@ const jobLevel = ref(1);
                 Hey, Enter your Information to sign in into your account
             </p>
         </div>
-        <UForm
-            :validate="validate"
-            :state="state"
-            @submit="onSubmit"
-            class="grid gap-4 pt-10"
-        >
+        <UForm :validate="validate" :state="state" @submit="onSubmit" class="grid gap-4 pt-10">
             <UFormGroup label="Email" name="email">
-                <UInput
-                    v-model="state.email"
-                    placeholder="zhoubovisal@gmail.com"
-                />
+                <UInput v-model="state.email" placeholder="zhoubovisal@gmail.com" />
             </UFormGroup>
 
             <UFormGroup label="Password" name="password">
-                <UInput
-                    v-model="state.password"
-                    type="password"
-                    placeholder="XKVJFV$FJC#"
-                />
+                <UInput v-model="state.password" type="password" placeholder="XKVJFV$FJC#" />
             </UFormGroup>
 
             <div class="flex justify-center p-5">
