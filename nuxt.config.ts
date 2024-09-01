@@ -13,4 +13,10 @@ export default defineNuxtConfig({
         preference: "light",
     },
     css: ["~/styles/main.css"],
+    components: [
+        {
+            path: "~/components",
+            pathPrefix: false,
+        },
+    ],
 });

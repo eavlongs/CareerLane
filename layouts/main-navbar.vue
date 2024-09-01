@@ -1,14 +1,15 @@
 <template>
     <div class="w-screen">
-        <div class="py-16 max-w-[2200px] mx-auto">
-            <div class="fixed h-16 w-full bg-white flex items-center px-16 top-0 max-w-[2200px]">
+        <div class="py-16 max-w-[2000px] mx-auto">
+            <div class="fixed h-16 w-full bg-white flex items-center px-16 top-0 max-w-[2000px]">
                 <NuxtLink to="/">
                     <h1 class="font-bold text-2xl">CareerLane</h1>
                 </NuxtLink>
                 <div class="ml-auto font-semibold text-lg flex items-center gap-x-2">
-                    <NuxtLink v-for="l in navLinks" :to="l.path" class="nav-link">
+                    <ULink v-for="l in navLinks" :to="l.path" class="p-2 hover:text-blue-400"
+                      :active="route.path === l.path" active-class="text-blue-500">
                         {{ l.name }}
-                    </NuxtLink>
+                    </ULink>
                     <div class="ml-4 flex items-center">
                         <template v-if="role === null">
                             <UButton variant="ghost" to="/sign-in">Log In</UButton>
@@ -21,7 +22,7 @@
                     </div>
                 </div>
             </div>
-            <div>
+            <div class="w-4/5 mx-auto">
                 <slot />
             </div>
         </div>
@@ -35,11 +36,17 @@ const navLinks: { name: string; path: string }[] = [
     { name: "Companies", path: "/companies" }
 ]
 
-const role: "user" | "company" | null = "user"
+const route = useRoute()
+
+useHead({
+    title: `${"CareerLane"}`,
+    // meta: [
+    //     { name: 'description', content: '' }
+    // ],
+
+})
+
+const role: "user" | "company" | null = null
 </script>
 
-<style>
-.nav-link {
-    @apply cursor-pointer p-2;
-}
-</style>
+<style></style>
