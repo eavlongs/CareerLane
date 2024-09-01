@@ -1,13 +1,14 @@
 <template>
     <div class="my-6 section w-full">
-        <p class="text-2xl font-semibold">Search for the job you're looking for</p>
-        <div class="flex gap-x-4 items-center w-full mt-4   ">
+        <p class="text-2xl font-semibold">Search for the job you're looking for ...</p>
+        <div class="flex gap-x-4 items-center w-full mt-4">
             <JobSearchBar v-model="query" class="w-full" />
             <JobSearchBarButton :query="query" />
         </div>
     </div>
 
-    <JobPostSection title="Recent Jobs" :jobs="recentJobs" />
+    <JobPostSection class="mb-6" title="Recent Jobs" :jobs="recentJobs" see-all-job-link="/jobs?sort=latest" />
+    <CompaniesSection title="Featured Companies" :companies="featuredCompanies" />
 </template>
 
 <script lang="ts" setup>
@@ -62,6 +63,93 @@ const recentJobs: JobPost[] = [
         created_at: new Date()
     }
 ]
+
+const featuredCompanies: Company[] = [
+    {
+        id: "1",
+        name: "Tech Solutions Inc.",
+        logo: "https://via.placeholder.com/150?text=Tech+Solutions+Logo",
+        location: "San Francisco, CA",
+        description: "A leading provider of innovative tech solutions for businesses worldwide."
+    },
+    {
+        id: "2",
+        name: "Green Energy Corp.",
+        logo: "https://via.placeholder.com/150?text=Green+Energy+Logo",
+        location: "Austin, TX",
+        description: "Pioneers in renewable energy with a focus on sustainability and innovation."
+    },
+    {
+        id: "3",
+        name: "HealthFirst Medical",
+        logo: "https://via.placeholder.com/150?text=HealthFirst+Logo",
+        location: "Boston, MA",
+        description: "Providing top-notch healthcare services and cutting-edge medical research."
+    },
+    {
+        id: "4",
+        name: "EduNation",
+        logo: "https://via.placeholder.com/150?text=EduNation+Logo",
+        location: "New York, NY",
+        description: "Empowering learners through advanced educational technology and tools."
+    },
+    {
+        id: "5",
+        name: "FinServe Solutions",
+        logo: "https://via.placeholder.com/150?text=FinServe+Logo",
+        location: "Chicago, IL",
+        description: "Specializing in financial services and innovative banking technologies."
+    },
+    {
+        id: "6",
+        name: "AutoDrive Ltd.",
+        logo: "https://via.placeholder.com/150?text=AutoDrive+Logo",
+        location: "Detroit, MI",
+        description: "Innovators in the automotive industry with a focus on electric and autonomous vehicles."
+    },
+    {
+        id: "7",
+        name: "TravelGo",
+        logo: "https://via.placeholder.com/150?text=TravelGo+Logo",
+        location: "Los Angeles, CA",
+        description: "Your trusted partner for planning and booking travel experiences around the globe."
+    },
+    {
+        id: "8",
+        name: "FoodieFinds",
+        logo: "https://via.placeholder.com/150?text=FoodieFinds+Logo",
+        location: "Portland, OR",
+        description: "A marketplace for discovering unique and gourmet food products from local artisans."
+    },
+    {
+        id: "9",
+        name: "BuildWare",
+        logo: "https://via.placeholder.com/150?text=BuildWare+Logo",
+        location: "Dallas, TX",
+        description: "A leader in construction and building materials, serving clients across the nation."
+    },
+    {
+        id: "10",
+        name: "Creative Minds",
+        logo: "https://via.placeholder.com/150?text=Creative+Minds+Logo",
+        location: "Seattle, WA",
+        description: "An advertising agency known for its creative campaigns and innovative marketing strategies."
+    },
+    {
+        id: "11",
+        name: "BuildWare",
+        logo: "https://via.placeholder.com/150?text=BuildWare+Logo",
+        location: "Dallas, TX",
+        description: "A leader in construction and building materials, serving clients across the nation."
+    },
+    {
+        id: "12",
+        name: "Creative Minds",
+        logo: "https://via.placeholder.com/150?text=Creative+Minds+Logo",
+        location: "Seattle, WA",
+        description: "An advertising agency known for its creative campaigns and innovative marketing strategies."
+    }
+];
 </script>
 
 <style></style>

@@ -13,6 +13,14 @@ export type JobPost = {
     created_at: Date;
 };
 
+export type Company = {
+    id: string;
+    name: string;
+    logo: string;
+    location: string;
+    description: string;
+};
+
 export enum JobTypeEnum {
     FullTime,
     PartTime,
@@ -37,6 +45,6 @@ export enum JobLocationEnum {
 
 export const JobLocationEnumToStringMap = {
     [JobLocationEnum.Remote]: "Remote",
-    [JobLocationEnum.Onsite]: "Onsite",
+    [JobLocationEnum.Onsite]: "On Site",
     [JobLocationEnum.Hybrid]: "Hybrid",
 };
