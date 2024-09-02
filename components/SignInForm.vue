@@ -1,21 +1,22 @@
 <script setup lang="ts">
 import type { FormError, FormSubmitEvent } from "#ui/types";
+import { z } from "zod";
+
+const schema = z.object({
+    email: z.string().email('Invalid email'),
+    password: z.string().min(8, 'Must be at least 8 characters')
+})
+
+type Schema = z.output<typeof schema>
 
 const state = reactive({
     email: undefined,
     password: undefined,
 });
 
-const validate = (state: any): FormError[] => {
-    const errors = [];
-    if (!state.email) errors.push({ path: "email", message: "Required" });
-    if (!state.password) errors.push({ path: "password", message: "Required" });
-    return errors;
-};
-
-async function onSubmit(event: FormSubmitEvent<any>) {
+async function onSubmit(event: FormSubmitEvent<Schema>) {
     // Do something with data
-    console.log(event.data);
+    console.log(event.data.email);
 }
 
 const jobLevel = ref(1);
@@ -26,7 +27,7 @@ const jobLevel = ref(1);
         <p class="font-bold text-2xl text-center mb-8">
             Log In
         </p>
-        <UForm :validate="validate" :state="state" @submit="onSubmit" class="grid gap-4">
+        <UForm :schema="schema" :state="state" @submit="onSubmit" class="grid gap-4">
             <UFormGroup label="Email" name="email">
                 <UInput v-model="state.email" placeholder="example@gmail.com" />
             </UFormGroup>
