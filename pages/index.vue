@@ -1,6 +1,6 @@
 <template>
     <div class="my-6 section w-full">
-        <p class="text-2xl font-semibold">Search for the job you're looking for ...</p>
+        <p class="text-xl md:text-2xl font-semibold">Search for the job you're looking for ...</p>
         <div class="flex gap-x-4 items-center w-full mt-4">
             <JobSearchBar v-model="query" class="w-full" />
             <JobSearchBarButton :query="query" />
@@ -32,7 +32,7 @@ const recentJobs: JobPost[] = [
         is_salary_negotiable: false,
         company_location: "Mountain View, CA",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Nullam auctor, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc.",
-        created_at: new Date()
+        created_at: new Date("2022-01-01")
     },
     {
         id: "2",

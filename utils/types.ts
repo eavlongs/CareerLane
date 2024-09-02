@@ -30,11 +30,11 @@ export enum JobTypeEnum {
 }
 
 export const JobTypeEnumToStringMap = {
-    [JobTypeEnum.FullTime]: "Full Time",
-    [JobTypeEnum.PartTime]: "Part Time",
-    [JobTypeEnum.Contract]: "Contract",
-    [JobTypeEnum.Internship]: "Internship",
-    [JobTypeEnum.Temporary]: "Temporary",
+    [JobTypeEnum.FullTime.toString()]: "Full Time",
+    [JobTypeEnum.PartTime.toString()]: "Part Time",
+    [JobTypeEnum.Contract.toString()]: "Contract",
+    [JobTypeEnum.Internship.toString()]: "Internship",
+    [JobTypeEnum.Temporary.toString()]: "Temporary",
 };
 
 export enum JobLocationEnum {
@@ -44,7 +44,7 @@ export enum JobLocationEnum {
 }
 
 export const JobLocationEnumToStringMap = {
-    [JobLocationEnum.Remote]: "Remote",
-    [JobLocationEnum.Onsite]: "On Site",
-    [JobLocationEnum.Hybrid]: "Hybrid",
+    [JobLocationEnum.Remote.toString()]: "Remote",
+    [JobLocationEnum.Onsite.toString()]: "On Site",
+    [JobLocationEnum.Hybrid.toString()]: "Hybrid",
 };
