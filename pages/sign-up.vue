@@ -1,13 +1,13 @@
 <template>
-    <div>
-        <div class="grid place-items-center min-h-screen">
-            <SignUpForm />
-        </div>
+    <div class="grid place-items-center mt-10 lg:mt-20">
+        <SignUpForm />
     </div>
 </template>
 
 <script lang="ts" setup>
-import SignUpForm from "/components/SignUpForm.vue";
+definePageMeta({
+    layout: "main-navbar"
+})
 </script>
 
 <style></style>

@@ -4,6 +4,8 @@ import type { FormError, FormSubmitEvent } from "#ui/types";
 const state = reactive({
     email: undefined,
     password: undefined,
+    firstName: undefined,
+    lastName: undefined
 });
 
 const validate = (state: any): FormError[] => {
@@ -37,19 +39,17 @@ const jobLevel = ref(1);
 </script>
 
 <template>
-    <UCard class="w-[400px] bg-gray-100 mx-auto p-5">
-        <UForm
-            :validate="validate"
-            :state="state"
-            @submit="onSubmit"
-            class="grid gap-4"
-        >
+    <UCard class="w-[90%] sm:w-[390px] md:w-[420px] bg-white md:mx-auto p-4 shadow-lg">
+        <p class="font-bold text-2xl text-center mb-8">
+            Register Account
+        </p>
+        <UForm :validate="validate" :state="state" @submit="onSubmit" class="grid gap-4">
             <UFormGroup label="First Name" name="firstName">
-                <UInput v-model="state.firstName" placeholder="Zhou" />
+                <UInput v-model="state.firstName" placeholder="John" />
             </UFormGroup>
 
             <UFormGroup label="Last Name" name="lastName">
-                <UInput v-model="state.lastName" placeholder="Bovisal" />
+                <UInput v-model="state.lastName" placeholder="Doe" />
             </UFormGroup>
 
             <!-- <UFormGroup label="Job Title" name="jobTitle">
@@ -68,23 +68,20 @@ const jobLevel = ref(1);
             </UFormGroup> -->
 
             <UFormGroup label="Email" name="email">
-                <UInput
-                    v-model="state.email"
-                    placeholder="zhoubovisal@gmail.com"
-                />
+                <UInput v-model="state.email" placeholder="example@gmail.com" />
             </UFormGroup>
 
             <UFormGroup label="Password" name="password">
-                <UInput
-                    v-model="state.password"
-                    type="password"
-                    placeholder="XKVJFV$FJC#"
-                />
+                <UInput v-model="state.password" type="password" placeholder="********" />
             </UFormGroup>
 
-            <div class="flex justify-end">
-                <UButton type="submit"> Sign Up </UButton>
-            </div>
+            <UButton type="submit" class="block mx-auto" size="lg"> Sign Up </UButton>
+
+            <UDivider label="Or" />
+
+            <ContinueWithProvider providerLogo="google logo" providerName="Google" />
+            <ContinueWithProvider providerLogo="google logo" providerName="LinkedIn" />
+            <ContinueWithProvider providerLogo="google logo" providerName="Github" />
         </UForm>
     </UCard>
 </template>

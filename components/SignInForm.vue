@@ -22,27 +22,27 @@ const jobLevel = ref(1);
 </script>
 
 <template>
-    <UCard class="w-[420px] bg-gray-100 mx-auto p-5 shadow-lg">
-        <div class="leading-[10px]">
-            <p class="font-mono font-bold text-2xl leading-[5rem]">
-                Log In Into Your Account
-            </p>
-            <p class="font-mono text-sm text-center">
-                Hey, Enter your Information to sign in into your account
-            </p>
-        </div>
-        <UForm :validate="validate" :state="state" @submit="onSubmit" class="grid gap-4 pt-10">
+    <UCard class="w-[90%] sm:w-[370px] md:w-[400px] bg-white md:mx-auto p-4 shadow-lg">
+        <p class="font-bold text-2xl text-center mb-8">
+            Log In
+        </p>
+        <UForm :validate="validate" :state="state" @submit="onSubmit" class="grid gap-4">
             <UFormGroup label="Email" name="email">
-                <UInput v-model="state.email" placeholder="zhoubovisal@gmail.com" />
+                <UInput v-model="state.email" placeholder="example@gmail.com" />
             </UFormGroup>
 
             <UFormGroup label="Password" name="password">
-                <UInput v-model="state.password" type="password" placeholder="XKVJFV$FJC#" />
+                <UInput v-model="state.password" type="password" placeholder="********" />
             </UFormGroup>
 
-            <div class="flex justify-center p-5">
-                <UButton type="submit"> Log In </UButton>
-            </div>
+
+            <UButton type="submit" class="block mx-auto" size="lg"> Log In </UButton>
+
+            <UDivider label="Or" />
+
+            <ContinueWithProvider providerLogo="google logo" providerName="Google" />
+            <ContinueWithProvider providerLogo="google logo" providerName="LinkedIn" />
+            <ContinueWithProvider providerLogo="google logo" providerName="Github" />
         </UForm>
     </UCard>
 </template>
