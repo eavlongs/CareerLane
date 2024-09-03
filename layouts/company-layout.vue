@@ -14,7 +14,7 @@
                                     <h1 class="font-bold text-2xl">CareerLane</h1>
                                 </NuxtLink>
                             </div>
-                            <div class="flex flex-col h-[calc(100vh-4rem)]">
+                            <div class="flex flex-col h-[calc(100dvh-4rem)]">
                                 <UButton v-for="l in navLinks" :to="l.path" variant="ghost"
                                   class="py-4 text-lg px-4 hover:bg-gray-200" color="black">
                                     {{ l.name }}

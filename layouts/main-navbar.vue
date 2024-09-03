@@ -15,11 +15,22 @@
                                         <h1 class="font-bold text-2xl">CareerLane</h1>
                                     </NuxtLink>
                                 </div>
-                                <div class="flex flex-col">
+                                <div class="flex flex-col h-[calc(100dvh-4rem)]">
                                     <UButton v-for="l in navLinks" :to="l.path" variant="ghost"
                                       class="py-4 text-lg px-4 hover:bg-gray-200" color="black">
                                         {{ l.name }}
                                     </UButton>
+                                    <template v-if="role === 'user'">
+                                        <UButton to="/profile" variant="ghost"
+                                          class="py-4 text-lg px-4 hover:bg-gray-200" color="black">
+                                            My Profile
+                                        </UButton>
+                                        <div class="flex-grow w-full flex items-end justify-center mb-8">
+                                            <UButton class="py-2 text-lg px-8" color="red"
+                                              leading-icon="ic:outline-log-out">Log
+                                                Out</UButton>
+                                        </div>
+                                    </template v-if="role === 'user'">
                                 </div>
                             </div>
                         </USlideover>
@@ -33,14 +44,28 @@
                           :active="route.path === l.path" active-class="text-blue-500">
                             {{ l.name }}
                         </ULink>
-                        <div class="ml-4 flex items-center">
+                        <div class=" flex items-center ">
                             <template v-if="role === null">
                                 <UButton variant="ghost" to="/sign-in">Log In</UButton>
                                 <UButton variant="ghost" to="/sign-up">Register</UButton>
                             </template>
 
-                            <template v-else-if="role === 'user' || role === 'company'">
+                            <template v-else-if="role === 'company'">
                                 <UButton to="/dashboard">Dashboard</UButton>
+                            </template>
+
+                            <template v-else>
+                                <div class="hidden md:flex">
+                                    <UButton variant="ghost" color="black"
+                                      class="flex gap-x-2 ml-auto hover:bg-gray-200 max-w-[27rem] items-center"
+                                      leading-icon="ic:outline-log-out" to="/c/profile">
+                                        <UAvatar src="/user.png" size="md" class="border" />
+                                        <h1 class="font-semibold text-lg line-clamp-1">John Doe</h1>
+                                    </UButton>
+
+                                    <UButton color="red" size="md" class="ml-4" leading-icon="ic:outline-log-out">Log
+                                        Out</UButton>
+                                </div>
                             </template>
                         </div>
                     </div>
@@ -72,7 +97,7 @@ useHead({
 
 })
 
-const role: "user" | "company" | null = null
+const role: "user" | "company" | null = 'user'
 </script>
 
 <style></style>
