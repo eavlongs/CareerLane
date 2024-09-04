@@ -11,36 +11,54 @@ const state = reactive({
     last_name: undefined,
 });
 
-const schema = z.object({
-    first_name: z.string().min(1, "Must be at least 1 character"),
-    last_name: z.string().min(1, "Must be at least 1 character"),
-    email: z.string().email("Invalid email"),
-    password: z.string().min(8, "Must be at least 8 characters"),
-    confirm_password: z.string()
-}).refine(obj => {
-    return obj.password === obj.confirm_password;
-}, {
-    message: "Password and confirm password must match",
-    path: ["confirm_password"],
-});
+const schema = z
+    .object({
+        first_name: z.string().min(1, "Must be at least 1 character"),
+        last_name: z.string().min(1, "Must be at least 1 character"),
+        email: z.string().email("Invalid email"),
+        password: z.string().min(8, "Must be at least 8 characters"),
+        confirm_password: z.string(),
+    })
+    .refine(
+        (obj) => {
+            return obj.password === obj.confirm_password;
+        },
+        {
+            message: "Password and confirm password must match",
+            path: ["confirm_password"],
+        }
+    );
 
 type Schema = z.output<typeof schema>;
 
 async function signUp(e: FormSubmitEvent<Schema>) {
     e.preventDefault(); // Prevent the default form submission behavior
-    await $fetch(`${runtimeConfig.public.apiURL}/register`, {
+    const response = await $fetch<{
+        success: boolean;
+        message: string;
+    }>("/api/signup", {
         method: "POST",
         body: new FormData(e.target as HTMLFormElement),
     });
 
-    await navigateTo("/");
+    if (response.success) {
+        // navigateTo("/");
+    }
 }
 </script>
 
 <template>
-    <UCard class="w-[90%] sm:w-[390px] md:w-[420px] bg-white md:mx-auto p-4 shadow-lg">
+    <UCard
+        class="w-[90%] sm:w-[390px] md:w-[420px] bg-white md:mx-auto p-4 shadow-lg"
+    >
         <p class="font-bold text-2xl text-center mb-8">Register Account</p>
-        <UForm :schema="schema" :state="state" @submit.prevent="signUp" class="grid gap-4" method="post">
+        <UForm
+            :schema="schema"
+            :state="state"
+            @submit.prevent="signUp"
+            class="grid gap-4"
+            method="post"
+        >
             <UFormGroup label="First Name" name="first_name">
                 <UInput v-model="state.first_name" placeholder="John" />
             </UFormGroup>
@@ -49,15 +67,23 @@ async function signUp(e: FormSubmitEvent<Schema>) {
                 <UInput v-model="state.last_name" placeholder="Doe" />
             </UFormGroup>
             <UFormGroup label="Email" name="email">
-                <UInput v-model="state.email" placeholder="example@gmail.com" />
+                <UInput placeholder="example@gmail.com" v-model="state.email" />
             </UFormGroup>
 
             <UFormGroup label="Password" name="password">
-                <UInput v-model="state.password" type="password" placeholder="********" />
+                <UInput
+                    v-model="state.password"
+                    type="password"
+                    placeholder="********"
+                />
             </UFormGroup>
 
             <UFormGroup label="Confirm Password" name="confirm_password">
-                <UInput v-model="state.confirm_password" type="password" placeholder="********" />
+                <UInput
+                    v-model="state.confirm_password"
+                    type="password"
+                    placeholder="********"
+                />
             </UFormGroup>
 
             <UButton type="submit" class="block mx-auto" size="lg">
@@ -66,9 +92,18 @@ async function signUp(e: FormSubmitEvent<Schema>) {
 
             <UDivider label="Or" />
 
-            <ContinueWithProvider providerLogo="google logo" providerName="Google" />
-            <ContinueWithProvider providerLogo="google logo" providerName="LinkedIn" />
-            <ContinueWithProvider providerLogo="google logo" providerName="Github" />
+            <ContinueWithProvider
+                providerLogo="google logo"
+                providerName="Google"
+            />
+            <ContinueWithProvider
+                providerLogo="google logo"
+                providerName="LinkedIn"
+            />
+            <ContinueWithProvider
+                providerLogo="google logo"
+                providerName="Github"
+            />
         </UForm>
     </UCard>
 </template>

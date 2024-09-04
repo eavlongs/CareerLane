@@ -49,7 +49,8 @@ export default class CustomAdapter {
         }
     }
     public async setSession(session: DatabaseSession): Promise<void> {
-        const response = await fetch(`${apiUrl}/sessions`, {
+        console.log({ session });
+        const response = await $fetch(`${apiUrl}/sessions`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -57,7 +58,7 @@ export default class CustomAdapter {
             body: JSON.stringify(session),
         });
 
-        if (!response.ok) {
+        if (!response.success) {
             throw new Error("Failed to set session");
         }
 
@@ -84,11 +85,12 @@ export default class CustomAdapter {
     }
 
     public async deleteSession(sessionId: string): Promise<void> {
-        const response = await fetch(`${apiUrl}/sessions/${sessionId}`, {
+        console.log({ sessionId });
+        const response = await $fetch(`${apiUrl}/sessions/${sessionId}`, {
             method: "DELETE",
         });
 
-        if (!response.ok) {
+        if (!response.success) {
             throw new Error("Failed to delete session");
         }
 

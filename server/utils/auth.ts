@@ -15,7 +15,6 @@ export const lucia = new Lucia(customAdapter, {
             lastName: attributes.lastName,
             aboutMe: attributes.aboutMe,
             jobTitle: attributes.jobTitle,
-            jobLevel: attributes.jobLevel,
         };
     },
 });
@@ -33,7 +32,6 @@ interface DatabaseUserAttributes {
     email: string;
     aboutMe: string;
     jobTitle: string;
-    jobLevel: string;
     providerType: string;
     providerId: string;
 }

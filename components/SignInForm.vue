@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { FormError, FormSubmitEvent } from "#ui/types";
 import { z } from "zod";
 
+const runtimeConfig = useRuntimeConfig();
 const schema = z.object({
     email: z.string().email("Invalid email"),
     password: z.string().min(8, "Must be at least 8 characters"),
@@ -9,21 +9,10 @@ const schema = z.object({
 
 type Schema = z.output<typeof schema>;
 
-const state = reactive({
-    email: undefined,
-    password: undefined,
-});
-
-async function onSubmit(event: FormSubmitEvent<Schema>) {
-    // Do something with data
-    console.log(event.data.email);
-}
-
 const jobLevel = ref(1);
 
-const apiUrl = process.env.NUXT_PUBLIC_API_URL as string;
-async function signup(e: Event) {
-    await $fetch(`/ {{apiUrl}} /login`, {
+async function signIn(e: Event) {
+    await $fetch(`/ ${runtimeConfig.public.apiURL}/login`, {
         method: "POST",
         body: new FormData(e.target as HTMLFormElement),
     });
@@ -36,22 +25,13 @@ async function signup(e: Event) {
         class="w-[90%] sm:w-[370px] md:w-[400px] bg-white md:mx-auto p-4 shadow-lg"
     >
         <p class="font-bold text-2xl text-center mb-8">Log In</p>
-        <UForm
-            :schema="schema"
-            :state="state"
-            @submit="onSubmit"
-            class="grid gap-4"
-        >
+        <UFor :schema="schema" @submit.prevent="signIn" class="grid gap-4">
             <UFormGroup label="Email" name="email">
-                <UInput v-model="state.email" placeholder="example@gmail.com" />
+                <UInput placeholder="example@gmail.com" />
             </UFormGroup>
 
             <UFormGroup label="Password" name="password">
-                <UInput
-                    v-model="state.password"
-                    type="password"
-                    placeholder="********"
-                />
+                <UInput type="password" placeholder="********" />
             </UFormGroup>
 
             <UButton type="submit" class="block mx-auto" size="lg">
@@ -72,6 +52,6 @@ async function signup(e: Event) {
                 providerLogo="google logo"
                 providerName="Github"
             />
-        </UForm>
+        </UFor>
     </UCard>
 </template>
