@@ -1,5 +1,5 @@
 <template>
-    <div class="grid place-items-center mt-10 lg:mt-20">
+    <div class="grid place-items-center mt-4 lg:mt-6">
         <SignUpForm />
     </div>
 </template>

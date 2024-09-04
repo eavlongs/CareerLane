@@ -30,7 +30,7 @@
                                               leading-icon="ic:outline-log-out">Log
                                                 Out</UButton>
                                         </div>
-                                    </template v-if="role === 'user'">
+                                    </template>
                                 </div>
                             </div>
                         </USlideover>
@@ -45,7 +45,7 @@
                             {{ l.name }}
                         </ULink>
                         <div class=" flex items-center ">
-                            <template v-if="role === null">
+                            <template v-if="role == null">
                                 <UButton variant="ghost" to="/sign-in">Log In</UButton>
                                 <UButton variant="ghost" to="/sign-up">Register</UButton>
                             </template>
@@ -97,7 +97,7 @@ useHead({
 
 })
 
-const role: "user" | "company" | null = 'user'
+const role = ref<"user" | "company" | null>(null)
 </script>
 
 <style></style>

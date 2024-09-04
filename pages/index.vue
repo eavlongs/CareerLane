@@ -68,21 +68,21 @@ const featuredCompanies: Company[] = [
     {
         id: "1",
         name: "Tech Solutions Inc.",
-        logo: "https://via.placeholder.com/150?text=Tech+Solutions+Logo",
+        logo: "https://cdn2.hubspot.net/hubfs/53/image8-2.jpg",
         location: "San Francisco, CA",
         description: "A leading provider of innovative tech solutions for businesses worldwide."
     },
     {
         id: "2",
         name: "Green Energy Corp.",
-        logo: "https://via.placeholder.com/150?text=Green+Energy+Logo",
+        logo: "https://cdn2.hubspot.net/hubfs/53/image8-2.jpg",
         location: "Austin, TX",
         description: "Pioneers in renewable energy with a focus on sustainability and innovation."
     },
     {
         id: "3",
         name: "HealthFirst Medical",
-        logo: "https://via.placeholder.com/150?text=HealthFirst+Logo",
+        logo: "https://cdn2.hubspot.net/hubfs/53/image8-2.jpg",
         location: "Boston, MA",
         description: "Providing top-notch healthcare services and cutting-edge medical research."
     },
