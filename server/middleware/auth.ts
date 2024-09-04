@@ -3,7 +3,6 @@ import { verifyRequestOrigin } from "lucia";
 import type { Session, User } from "lucia";
 
 export default defineEventHandler(async (event) => {
-    if (import.meta.client) return;
     console.log("server middleware");
     console.log(event.method);
     if (event.method !== "GET") {
@@ -28,7 +27,7 @@ export default defineEventHandler(async (event) => {
     }
 
     const { session, user } = await lucia.validateSession(sessionId);
-    console.log({ session, user });
+    console.log("My session:", session);
     if (session && session.fresh) {
         appendResponseHeader(
             event,
@@ -36,13 +35,13 @@ export default defineEventHandler(async (event) => {
             lucia.createSessionCookie(session.id).serialize()
         );
     }
-    if (!session) {
-        appendResponseHeader(
-            event,
-            "Set-Cookie",
-            lucia.createBlankSessionCookie().serialize()
-        );
-    }
+    // if (!session) {
+    //     appendResponseHeader(
+    //         event,
+    //         "Set-Cookie",
+    //         lucia.createBlankSessionCookie().serialize()
+    //     );
+    // }
     event.context.session = session;
     event.context.user = user;
 });

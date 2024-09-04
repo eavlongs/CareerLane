@@ -21,7 +21,7 @@ export default class CustomAdapter {
 
             user.attributes = { ...user } as any;
 
-            const expiresAt = json.data.session.expiresAt as string;
+            const expiresAt = json.data.session.expires_at as string;
 
             const expiresAtAsDate = new Date(expiresAt);
             session.expiresAt = expiresAtAsDate;
