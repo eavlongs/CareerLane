@@ -42,7 +42,7 @@ async function signUp(e: FormSubmitEvent<Schema>) {
     });
 
     if (response.success) {
-        // navigateTo("/");
+        navigateTo("/");
     }
 }
 </script>
