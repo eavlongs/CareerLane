@@ -3,6 +3,7 @@ import { verifyRequestOrigin } from "lucia";
 import type { Session, User } from "lucia";
 
 export default defineEventHandler(async (event) => {
+    if (import.meta.client) return;
     console.log("server middleware");
     console.log(event.method);
     if (event.method !== "GET") {
