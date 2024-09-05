@@ -6,14 +6,12 @@ const state = reactive({
     email: undefined,
     password: undefined,
     confirm_password: undefined,
-    first_name: undefined,
-    last_name: undefined,
+    company_name: undefined,
 });
 
 const schema = z
     .object({
-        first_name: z.string().min(1, "Must be at least 1 character"),
-        last_name: z.string().min(1, "Must be at least 1 character"),
+        company_name: z.string().min(1, "Must be at least 1 character"),
         email: z.string().email("Invalid email"),
         password: z.string().min(8, "Must be at least 8 characters"),
         confirm_password: z.string(),
@@ -35,7 +33,7 @@ async function signUp(e: FormSubmitEvent<Schema>) {
     const response = await $fetch<{
         success: boolean;
         message: string;
-    }>("/api/signup", {
+    }>("/api/signup-company", {
         method: "POST",
         body: new FormData(e.target as HTMLFormElement),
     });
@@ -48,15 +46,12 @@ async function signUp(e: FormSubmitEvent<Schema>) {
 
 <template>
     <UCard class="w-[90%] sm:w-[390px] md:w-[420px] bg-white md:mx-auto p-4 shadow-lg">
-        <p class="font-bold text-2xl text-center mb-8">Register Account</p>
+        <p class="font-bold text-2xl text-center mb-8">Register Company Account</p>
         <UForm :schema="schema" :state="state" @submit.prevent="signUp" class="grid gap-4" method="post">
-            <UFormGroup label="First Name" name="first_name">
-                <UInput v-model="state.first_name" placeholder="John" />
+            <UFormGroup label="Comany Name" name="company_name">
+                <UInput v-model="state.company_name" placeholder="Company Name" />
             </UFormGroup>
 
-            <UFormGroup label="Last Name" name="last_name">
-                <UInput v-model="state.last_name" placeholder="Doe" />
-            </UFormGroup>
             <UFormGroup label="Email" name="email">
                 <UInput placeholder="example@gmail.com" v-model="state.email" />
             </UFormGroup>

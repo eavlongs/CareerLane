@@ -10,11 +10,11 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     if (
         isLoggedIn &&
-        to.path.startsWith("/sign-in" || to.path.startsWith("/sign-up"))
+        to.path.startsWith("/login" || to.path.startsWith("/register"))
     ) {
         return navigateTo("/");
     }
     if (!isLoggedIn && to.path.startsWith("/c/")) {
-        return navigateTo("/sign-in");
+        return navigateTo("/login");
     }
 });

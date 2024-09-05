@@ -31,13 +31,13 @@ export default defineEventHandler(async (event) => {
             lucia.createSessionCookie(session.id).serialize()
         );
     }
-    // if (!session) {
-    //     appendResponseHeader(
-    //         event,
-    //         "Set-Cookie",
-    //         lucia.createBlankSessionCookie().serialize()
-    //     );
-    // }
+    if (!session) {
+        appendResponseHeader(
+            event,
+            "Set-Cookie",
+            lucia.createBlankSessionCookie().serialize()
+        );
+    }
     event.context.session = session;
     event.context.user = user;
 });

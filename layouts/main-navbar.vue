@@ -46,8 +46,8 @@
                         </ULink>
                         <div class=" flex items-center ">
                             <template v-if="!user">
-                                <UButton variant="ghost" to="/sign-in">Log In</UButton>
-                                <UButton variant="ghost" to="/sign-up">Register</UButton>
+                                <UButton variant="ghost" to="/login">Log In</UButton>
+                                <UButton variant="ghost" to="/register">Register</UButton>
                             </template>
 
                             <template v-else-if="user.role == UserTypeEnum.Company">

@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
         error?: any;
         message: string;
         data?: {
-            user_id: string;
+            account_id: string;
         };
     }>(`${runtimeConfig.public.apiURL}/login`, {
         method: "POST",
@@ -21,8 +21,8 @@ export default defineEventHandler(async (event) => {
         };
     }
     console.log(1);
-    const userId = response.data!.user_id;
-    const session = await lucia.createSession(userId, {});
+    const accountId = response.data!.account_id;
+    const session = await lucia.createSession(accountId, {});
     appendHeader(
         event,
         "Set-Cookie",

@@ -7,7 +7,7 @@ export type JobPost = {
     company_location: string;
     company_id: string;
     company_name: string;
-    logo: string;
+    logo: string | null;
     salary: [number, number] | number | null;
     is_salary_negotiable: boolean;
     created_at: Date;
@@ -16,7 +16,7 @@ export type JobPost = {
 export type Company = {
     id: string;
     name: string;
-    logo: string;
+    logo: string | null;
     location: string;
     description: string;
 };
