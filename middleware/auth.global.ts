@@ -10,7 +10,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     if (
         isLoggedIn &&
-        to.path.startsWith("/login" || to.path.startsWith("/register"))
+        ["login", "register", "register-company"].includes(to.path)
     ) {
         return navigateTo("/");
     }
