@@ -3,8 +3,6 @@ import { verifyRequestOrigin } from "lucia";
 import type { Session, User } from "lucia";
 
 export default defineEventHandler(async (event) => {
-    console.log("server middleware");
-    console.log(event.method);
     if (event.method !== "GET") {
         const originHeader = getHeader(event, "Origin") ?? null;
         // NOTE: You may need to use `X-Forwarded-Host` instead
@@ -19,7 +17,6 @@ export default defineEventHandler(async (event) => {
     }
 
     const sessionId = getCookie(event, lucia.sessionCookieName) ?? null;
-    console.log("Lucia cookie:  " + sessionId);
     if (!sessionId) {
         event.context.session = null;
         event.context.user = null;
@@ -27,7 +24,6 @@ export default defineEventHandler(async (event) => {
     }
 
     const { session, user } = await lucia.validateSession(sessionId);
-    console.log("My session:", session);
     if (session && session.fresh) {
         appendResponseHeader(
             event,

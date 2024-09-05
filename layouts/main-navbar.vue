@@ -20,7 +20,7 @@
                                       class="py-4 text-lg px-4 hover:bg-gray-200" color="black">
                                         {{ l.name }}
                                     </UButton>
-                                    <template v-if="role === 'user'">
+                                    <template v-if="user && user.role == UserTypeEnum.User">
                                         <UButton to="/profile" variant="ghost"
                                           class="py-4 text-lg px-4 hover:bg-gray-200" color="black">
                                             My Profile
@@ -45,22 +45,21 @@
                             {{ l.name }}
                         </ULink>
                         <div class=" flex items-center ">
-                            <template v-if="role == null">
+                            <template v-if="!user">
                                 <UButton variant="ghost" to="/sign-in">Log In</UButton>
                                 <UButton variant="ghost" to="/sign-up">Register</UButton>
                             </template>
 
-                            <template v-else-if="role === 'company'">
+                            <template v-else-if="user.role == UserTypeEnum.Company">
                                 <UButton to="/dashboard">Dashboard</UButton>
                             </template>
 
                             <template v-else>
                                 <div class="hidden md:flex">
                                     <UButton variant="ghost" color="black"
-                                      class="flex gap-x-2 ml-auto hover:bg-gray-200 max-w-[27rem] items-center"
-                                      leading-icon="ic:outline-log-out" to="/c/profile">
+                                      class="flex gap-x-2 ml-auto hover:bg-gray-200 max-w-[27rem] items-center">
                                         <UAvatar src="/user.png" size="md" class="border" />
-                                        <h1 class="font-semibold text-lg line-clamp-1">John Doe</h1>
+                                        <h1 class="font-semibold text-lg line-clamp-1">{{ user.name }}</h1>
                                     </UButton>
 
                                     <UButton color="red" size="md" class="ml-4" leading-icon="ic:outline-log-out">Log
@@ -97,7 +96,8 @@ useHead({
 
 })
 
-const role = ref<"user" | "company" | null>(null)
+const user = useUser()
+
 </script>
 
 <style></style>

@@ -21,8 +21,9 @@ export default defineEventHandler(async (event) => {
         };
     }
     const userId = response.data!.user_id;
-    console.log("New user: " + userId);
+    console.log({ userId });
     const session = await lucia.createSession(userId, {});
+    console.log({ session });
     appendHeader(
         event,
         "Set-Cookie",
