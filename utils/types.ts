@@ -48,3 +48,8 @@ export const JobLocationEnumToStringMap = {
     [JobLocationEnum.Onsite.toString()]: "On Site",
     [JobLocationEnum.Hybrid.toString()]: "Hybrid",
 };
+
+export enum UserTypeEnum {
+    User,
+    Company,
+}
