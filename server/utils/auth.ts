@@ -36,7 +36,7 @@ interface DatabaseUserAttributes {
     account_id: string;
     avatar_url: string | null;
     role: UserTypeEnum.User | UserTypeEnum.Company;
-    first_name: string | null;
-    last_name: string | null;
-    company_name: string | null;
+    first_name?: string;
+    last_name?: string;
+    company_name?: string;
 }
