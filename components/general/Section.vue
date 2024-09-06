@@ -1,6 +1,9 @@
 <template>
     <div class="section" :class="props.class">
-        <p class="text-xl font-semibold mb-4">{{ title }}</p>
+        <div class="flex items-center justify-between  mb-4">
+            <p class="text-xl font-semibold">{{ title }}</p>
+            <slot name="buttons" />
+        </div>
         <slot />
         <template v-if="linkForSeeAllBtn">
             <div class="flex mt-4">

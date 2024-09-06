@@ -1,3 +1,5 @@
+import type { ZodValidationError } from "./types";
+
 export function queryBuilder(
     path: string,
     query: Record<string, string>
@@ -41,4 +43,55 @@ export function formatJobPostDate(date: Date): string {
     } else {
         return formatDate(date);
     }
+}
+
+export function transformValidationError(error: {
+    [key: string]: string;
+}): ZodValidationError[] {
+    return Object.keys(error).map((key) => ({
+        path: key,
+        message: error[key],
+    }));
+}
+
+export function toastErrorMessage(
+    toast: ReturnType<typeof useToast>,
+    message: string
+) {
+    toast.add({
+        title: message,
+        timeout: 10000,
+        color: "red",
+        icon: "ic:baseline-error-outline",
+        closeButton: {
+            icon: "i-heroicons-x-mark-20-solid",
+            color: "red",
+            variant: "ghost",
+            padded: false,
+        },
+        ui: {
+            title: "text-sm font-medium text-red-700 dark:text-white",
+        },
+    });
+}
+
+export function toastSuccessMessage(
+    toast: ReturnType<typeof useToast>,
+    message: string
+) {
+    toast.add({
+        title: message,
+        timeout: 10000,
+        color: "green",
+        icon: "ic:outline-check-circle-outline",
+        closeButton: {
+            icon: "i-heroicons-x-mark-20-solid",
+            color: "green",
+            variant: "ghost",
+            padded: false,
+        },
+        ui: {
+            title: "text-sm font-medium text-green-700 dark:text-white",
+        },
+    });
 }

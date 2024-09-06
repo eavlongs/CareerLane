@@ -1,5 +1,5 @@
 <template>
-    <PostSection :title="title" :class="props.class" link-for-see-all-btn="/companies" see-all-text="See All Companies">
+    <Section :title="title" :class="props.class" link-for-see-all-btn="/companies" see-all-text="See All Companies">
         <div
           class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 justify-center gap-2 sm:gap-4 xl:gap-y-6 mx-auto">
             <template v-for="c in companies" :key="c.id">
@@ -8,7 +8,7 @@
                 </NuxtLink>
             </template>
         </div>
-    </PostSection>
+    </Section>
 </template>
 
 <script lang="ts" setup>

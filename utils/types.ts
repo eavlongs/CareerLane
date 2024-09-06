@@ -27,6 +27,7 @@ export enum JobTypeEnum {
     Contract,
     Internship,
     Temporary,
+    _LENGTH,
 }
 
 export const JobTypeEnumToStringMap = {
@@ -41,6 +42,7 @@ export enum JobLocationEnum {
     Remote,
     Onsite,
     Hybrid,
+    _LENGTH,
 }
 
 export const JobLocationEnumToStringMap = {
@@ -52,6 +54,7 @@ export const JobLocationEnumToStringMap = {
 export enum UserTypeEnum {
     User,
     Company,
+    _LENGTH,
 }
 
 export type ApiResponse<T = any> = Prettify<{
@@ -66,3 +69,13 @@ export type ApiResponse<T = any> = Prettify<{
 export type Prettify<T> = {
     [K in keyof T]: T[K];
 } & {};
+
+export type Category = {
+    id: string;
+    name: string;
+};
+
+export type ZodValidationError = {
+    path: string;
+    message: string;
+};

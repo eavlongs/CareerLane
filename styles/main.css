@@ -9,3 +9,15 @@ body {
 .section {
     @apply bg-white py-3 px-2 sm:px-5 lg:py-6 lg:px-10;
 }
+
+/* disable input type number's arrows */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield !important;
+}

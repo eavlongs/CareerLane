@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { z } from "zod";
+import type { FormSubmitEvent } from "#ui/types";
 
 const schema = z.object({
     email: z.string().email("Invalid email"),
@@ -12,9 +13,7 @@ const state = reactive({
 
 type Schema = z.output<typeof schema>;
 
-const jobLevel = ref(1);
-
-async function signIn(e: Event) {
+async function signIn(e: FormSubmitEvent<Schema>) {
     e.preventDefault(); // Prevent the default form submission behavior
     console.log(1);
     const response = await $fetch<{
