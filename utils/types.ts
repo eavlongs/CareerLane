@@ -21,6 +21,13 @@ export type Company = {
     description: string;
 };
 
+export enum ProviderTypeEnum {
+    GOOGLE,
+    GITHUB,
+    LINKEDIN,
+    _LENGTH,
+}
+
 export enum JobTypeEnum {
     FullTime,
     PartTime,

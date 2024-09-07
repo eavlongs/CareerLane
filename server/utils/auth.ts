@@ -15,10 +15,13 @@ export const lucia = new Lucia(customAdapter, {
             id: attributes.id,
             account_id: attributes.account_id,
             avatar_url: attributes.avatar_url,
+            provider_id: attributes.provider_id,
             role: attributes.role,
             name:
                 attributes.role === UserTypeEnum.User
-                    ? `${attributes.first_name} ${attributes.last_name}`
+                    ? `${attributes.first_name}${
+                          attributes.last_name ? " " + attributes.last_name : ""
+                      }`
                     : attributes.company_name,
         };
     },
@@ -39,4 +42,5 @@ interface DatabaseUserAttributes {
     first_name?: string;
     last_name?: string;
     company_name?: string;
+    provider_id: string;
 }

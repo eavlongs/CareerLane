@@ -6,8 +6,6 @@ async function logOut() {
 
     window.location.href = "/";
 }
-
-const user = useUser();
 </script>
 
 <template>
@@ -21,8 +19,6 @@ const user = useUser();
                 type="submit"
                 >Log Out
             </UButton>
-
-            <Input type="hidden" value="{{ user. }}"></Input>
         </form>
     </div>
 </template>
