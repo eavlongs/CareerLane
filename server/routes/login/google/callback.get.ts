@@ -4,7 +4,6 @@ import { lucia } from "~/server/utils/auth";
 import { ProviderTypeEnum } from "~/utils/types";
 
 export default defineEventHandler(async (event) => {
-    console.log("here");
     const query = getQuery(event);
     const code = query.code?.toString() ?? null;
     const state = query.state?.toString() ?? null;
@@ -37,8 +36,6 @@ export default defineEventHandler(async (event) => {
         );
         const runtimeConfig = useRuntimeConfig();
         const googleUser: GoogleUser = await googleUserResponse.json();
-        console.log(1);
-        console.log(googleUser);
         const response = await fetch(
             `${runtimeConfig.public.apiURL}/login/provider`,
             {
@@ -57,7 +54,6 @@ export default defineEventHandler(async (event) => {
         );
 
         const json = await response.json();
-        console.log(json);
         const accountId = json.data.account_id;
 
         const session = await lucia.createSession(accountId, {});
@@ -72,7 +68,6 @@ export default defineEventHandler(async (event) => {
         deleteCookie(event, "codeVerifier");
         return sendRedirect(event, "/");
     } catch (e: any) {
-        console.log(e.message);
         // the specific error message depends on the provider
         if (e instanceof OAuth2RequestError) {
             // invalid code
