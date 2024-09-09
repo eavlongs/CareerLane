@@ -47,17 +47,9 @@ async function signUp(e: FormSubmitEvent<Schema>) {
 </script>
 
 <template>
-    <UCard
-        class="w-[90%] sm:w-[390px] md:w-[420px] bg-white md:mx-auto p-4 shadow-lg"
-    >
+    <UCard class="w-[90%] sm:w-[390px] md:w-[420px] bg-white md:mx-auto p-4 shadow-lg">
         <p class="font-bold text-2xl text-center mb-8">Register Account</p>
-        <UForm
-            :schema="schema"
-            :state="state"
-            @submit.prevent="signUp"
-            class="grid gap-4"
-            method="post"
-        >
+        <UForm :schema="schema" :state="state" @submit.prevent="signUp" class="grid gap-4" method="post">
             <UFormGroup label="First Name" name="first_name">
                 <UInput v-model="state.first_name" placeholder="John" />
             </UFormGroup>
@@ -70,19 +62,11 @@ async function signUp(e: FormSubmitEvent<Schema>) {
             </UFormGroup>
 
             <UFormGroup label="Password" name="password">
-                <UInput
-                    v-model="state.password"
-                    type="password"
-                    placeholder="********"
-                />
+                <UInput v-model="state.password" type="password" placeholder="********" />
             </UFormGroup>
 
             <UFormGroup label="Confirm Password" name="confirm_password">
-                <UInput
-                    v-model="state.confirm_password"
-                    type="password"
-                    placeholder="********"
-                />
+                <UInput v-model="state.confirm_password" type="password" placeholder="********" />
             </UFormGroup>
 
             <UButton type="submit" class="block mx-auto" size="lg">
@@ -91,21 +75,9 @@ async function signUp(e: FormSubmitEvent<Schema>) {
 
             <UDivider label="Or" />
 
-            <ContinueWithProvider
-                providerLogo="google logo"
-                providerName="Google"
-                herf="/login/google"
-            />
-            <ContinueWithProvider
-                providerLogo="google logo"
-                providerName="LinkedIn"
-                herf="/login/linkedin"
-            />
-            <ContinueWithProvider
-                providerLogo="google logo"
-                providerName="Github"
-                href="/login/github"
-            />
+            <ContinueWithProvider providerLogo="/google-logo.svg" providerName="Google" href="/login/google" />
+            <ContinueWithProvider providerLogo="/facebook-logo.svg" providerName="Facebook" href="/login/facebook" />
+            <ContinueWithProvider providerLogo="/github-logo.svg" providerName="Github" href="/login/github" />
         </UForm>
     </UCard>
 </template>

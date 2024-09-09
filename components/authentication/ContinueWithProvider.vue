@@ -1,27 +1,9 @@
 <template>
     <a :href="href">
-        <UButton color="white" size="xl" class="text-center w-[100%]">
-            <template v-if="props.providerName === 'Google'">
-                <img
-                    src="https://avatars.githubusercontent.com/u/739984?v=4"
-                    alt="Google Logo"
-                    class="w-7 aspect-square"
-                />
-            </template>
-            <template v-else-if="props.providerName === 'LinkedIn'">
-                <img
-                    src="https://avatars.githubusercontent.com/u/739984?v=4"
-                    alt="LinkedIn Logo"
-                    class="w-7 aspect-square"
-                />
-            </template>
-            <template v-else-if="props.providerName === 'Github'">
-                <img
-                    src="https://avatars.githubusercontent.com/u/739984?v=4"
-                    alt="Github Logo"
-                    class="w-7 aspect-square"
-                />
-            </template>
+        <UButton color="white" size="xl" class="justify-center w-[100%]">
+
+            <img :src="providerLogo" :alt="`${providerName} Logo`" class="w-7 aspect-square" />
+
             Continue With {{ props.providerName }}
         </UButton>
     </a>
