@@ -3,7 +3,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const data = await useRequestFetch()("/api/user");
 
     let isLoggedIn = false;
-    console.log(data);
     if (data) {
         user.value = data;
 

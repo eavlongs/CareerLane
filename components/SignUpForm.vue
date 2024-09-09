@@ -98,8 +98,8 @@ async function signUp(e: FormSubmitEvent<Schema>) {
             />
             <ContinueWithProvider
                 providerLogo="google logo"
-                providerName="LinkedIn"
-                herf="/login/linkedin"
+                providerName="facebook"
+                herf="/login/facebook"
             />
             <ContinueWithProvider
                 providerLogo="google logo"

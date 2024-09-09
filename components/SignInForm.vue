@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { z } from "zod";
 import type { FormSubmitEvent } from "#ui/types";
+import { z } from "zod";
 
 const schema = z.object({
     email: z.string().email("Invalid email"),
@@ -15,7 +15,6 @@ type Schema = z.output<typeof schema>;
 
 async function signIn(e: FormSubmitEvent<Schema>) {
     e.preventDefault(); // Prevent the default form submission behavior
-    console.log(1);
     const response = await $fetch<{
         success: boolean;
         message: string;
@@ -66,12 +65,12 @@ async function signIn(e: FormSubmitEvent<Schema>) {
                 href="/login/google"
             />
             <ContinueWithProvider
-                providerLogo="google logo"
-                providerName="LinkedIn"
-                href="/login/linkedin"
+                providerLogo="Facebook logo"
+                providerName="Facebook"
+                href="/login/facebook"
             />
             <ContinueWithProvider
-                providerLogo="google logo"
+                providerLogo="github logo"
                 providerName="Github"
                 href="/login/github"
             />

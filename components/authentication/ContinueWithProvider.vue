@@ -8,10 +8,10 @@
                     class="w-7 aspect-square"
                 />
             </template>
-            <template v-else-if="props.providerName === 'LinkedIn'">
+            <template v-else-if="props.providerName === 'Facebook'">
                 <img
                     src="https://avatars.githubusercontent.com/u/739984?v=4"
-                    alt="LinkedIn Logo"
+                    alt="Facebook Logo"
                     class="w-7 aspect-square"
                 />
             </template>

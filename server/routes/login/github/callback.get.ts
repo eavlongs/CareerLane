@@ -20,7 +20,6 @@ export default defineEventHandler(async (event) => {
             },
         });
         const githubUser: GitHubUser = await githubUserResponse.json();
-        console.log({ githubUser });
         const response = await fetch(
             `${runtimeConfig.public.apiURL}/login/provider`,
             {
@@ -39,8 +38,8 @@ export default defineEventHandler(async (event) => {
                 }),
             }
         );
-        console.log(response);
         const json = await response.json();
+
         const accountId = json.data.account_id;
 
         const session = await lucia.createSession(accountId, {});

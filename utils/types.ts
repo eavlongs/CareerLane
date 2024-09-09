@@ -24,7 +24,7 @@ export type Company = {
 export enum ProviderTypeEnum {
     GOOGLE,
     GITHUB,
-    LINKEDIN,
+    FACEBOOK,
     _LENGTH,
 }
 
