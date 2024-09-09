@@ -15,6 +15,7 @@ export type JobPost = {
     original_deadline: Date;
     extended_deadline: Date | null;
     created_at: Date;
+    updated_at: Date;
 };
 
 export type Company = {
