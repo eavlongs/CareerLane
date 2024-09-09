@@ -1,3 +1,4 @@
+import { differenceInCalendarDays } from "date-fns/esm";
 import type { ZodValidationError } from "./types";
 
 export function queryBuilder(
@@ -26,14 +27,8 @@ export function formatDate(date: Date): string {
     });
 }
 
-export function calculateDaysAgo(date: Date): number {
-    const today = new Date();
-    const diffTime = Math.abs(today.getTime() - date.getTime());
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-}
-
 export function formatJobPostDate(date: Date): string {
-    const daysAgo = calculateDaysAgo(date);
+    const daysAgo = differenceInCalendarDays(new Date(), date);
     if (daysAgo === 0) {
         return "Today";
     } else if (daysAgo === 1) {

@@ -54,7 +54,6 @@ export default defineEventHandler(async (event) => {
         );
 
         const json = await response.json();
-
         const accountId = json.data.account_id;
 
         const session = await lucia.createSession(accountId, {});
@@ -69,7 +68,6 @@ export default defineEventHandler(async (event) => {
         deleteCookie(event, "codeVerifier");
         return sendRedirect(event, "/");
     } catch (e: any) {
-        console.log(e.message);
         // the specific error message depends on the provider
         if (e instanceof OAuth2RequestError) {
             // invalid code

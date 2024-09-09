@@ -44,7 +44,9 @@ export default defineEventHandler(async (event) => {
 
         const session = await lucia.createSession(accountId, {});
         if (!session) {
-            console.log("Session creation failed");
+            throw createError({
+                status: 500,
+            });
         }
         appendHeader(
             event,

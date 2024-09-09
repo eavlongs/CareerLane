@@ -32,6 +32,10 @@ const recentJobs: JobPost[] = [
         is_salary_negotiable: false,
         company_location: "Mountain View, CA",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Nullam auctor, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc.",
+        category_id: "1",
+        is_active: true,
+        original_deadline: new Date("2022-01-15"),
+        extended_deadline: null,
         created_at: new Date("2022-01-01")
     },
     {
@@ -46,6 +50,10 @@ const recentJobs: JobPost[] = [
         company_location: "Menlo Park, CA",
         is_salary_negotiable: true,
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Nullam auctor, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc.",
+        category_id: "1",
+        is_active: true,
+        original_deadline: new Date("2022-01-15"),
+        extended_deadline: null,
         created_at: new Date()
     },
     {
@@ -60,6 +68,10 @@ const recentJobs: JobPost[] = [
         company_location: "Seattle, WA",
         is_salary_negotiable: true,
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Nullam auctor, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc.",
+        category_id: "1",
+        is_active: true,
+        original_deadline: new Date("2022-01-15"),
+        extended_deadline: null,
         created_at: new Date()
     }
 ]

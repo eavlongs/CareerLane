@@ -20,6 +20,7 @@ export default defineEventHandler(async (event) => {
             error: response.error,
         };
     }
+
     const accountId = response.data!.account_id;
     const session = await lucia.createSession(accountId, {});
     appendHeader(

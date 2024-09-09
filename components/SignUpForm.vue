@@ -92,17 +92,17 @@ async function signUp(e: FormSubmitEvent<Schema>) {
             <UDivider label="Or" />
 
             <ContinueWithProvider
-                providerLogo="google logo"
+                providerLogo="/google-logo.svg"
                 providerName="Google"
-                herf="/login/google"
+                href="/login/google"
             />
             <ContinueWithProvider
-                providerLogo="google logo"
-                providerName="facebook"
-                herf="/login/facebook"
+                providerLogo="/facebook-logo.svg"
+                providerName="Facebook"
+                href="/login/facebook"
             />
             <ContinueWithProvider
-                providerLogo="google logo"
+                providerLogo="/github-logo.svg"
                 providerName="Github"
                 href="/login/github"
             />

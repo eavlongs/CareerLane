@@ -10,7 +10,7 @@
                             <div class="h-16 px-4 flex items-center gap-x-4 border-b">
                                 <UButton icon="ic:round-menu" class="hover:bg-gray-200" size="xl" variant="ghost"
                                   color="black" @click="isOpen = false" />
-                                <NuxtLink to="/">
+                                <NuxtLink to="/c/dashboard">
                                     <h1 class="font-bold text-2xl">CareerLane</h1>
                                 </NuxtLink>
                             </div>
@@ -20,26 +20,27 @@
                                     {{ l.name }}
                                 </UButton>
                                 <div class="flex-grow w-full flex items-end justify-center mb-8">
-                                    <UButton class="py-2 text-lg px-8" color="red" leading-icon="ic:outline-log-out">
-                                        Log Out
-                                    </UButton>
+                                    <LogOutButton class="py-2 text-lg px-8" />
                                 </div>
                             </div>
                         </div>
                     </USlideover>
 
-                    <NuxtLink to="/">
+                    <NuxtLink to="/c/dashboard">
                         <h1 class="font-bold text-2xl">CareerLane</h1>
                     </NuxtLink>
 
-                    <UButton variant="ghost" color="black"
-                      class="flex gap-x-2 ml-auto hover:bg-gray-200 max-w-[27rem] items-center" to="/c/profile">
+                    <div class="flex gap-x-2 items-center ml-auto">
+                        <UButton to="/" size="md">Home</UButton>
+                        <UButton variant="ghost" color="black"
+                          class="flex gap-x-2 hover:bg-gray-200 max-w-[27rem] items-center" to="/c/profile">
 
-                        <UAvatar :src="user!.avatar_url ?? COMPANY_LOGO_FALLBACK" size="lg" />
+                            <UAvatar :src="user!.avatar_url ?? COMPANY_LOGO_FALLBACK" size="lg" />
 
-                        <h1 class="font-semibold text-lg line-clamp-1">{{ user!.name }}</h1>
+                            <h1 class="font-semibold text-lg line-clamp-1">{{ user!.name }}</h1>
 
-                    </UButton>
+                        </UButton>
+                    </div>
                 </div>
             </div>
 
