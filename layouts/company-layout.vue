@@ -10,7 +10,7 @@
                             <div class="h-16 px-4 flex items-center gap-x-4 border-b">
                                 <UButton icon="ic:round-menu" class="hover:bg-gray-200" size="xl" variant="ghost"
                                   color="black" @click="isOpen = false" />
-                                <NuxtLink to="/">
+                                <NuxtLink to="/c/dashboard">
                                     <h1 class="font-bold text-2xl">CareerLane</h1>
                                 </NuxtLink>
                             </div>
@@ -28,7 +28,7 @@
                         </div>
                     </USlideover>
 
-                    <NuxtLink to="/">
+                    <NuxtLink to="/c/dashboard">
                         <h1 class="font-bold text-2xl">CareerLane</h1>
                     </NuxtLink>
 

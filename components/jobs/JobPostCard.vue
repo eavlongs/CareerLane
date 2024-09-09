@@ -21,7 +21,7 @@
                         {{ props.job.company_location }}
                         <span class="ml-1"
                           v-if="[JobLocationEnum.Onsite, JobLocationEnum.Hybrid].includes(props.job.location)">
-                            ({{ JobLocationEnum[props.job.location] }})
+                            ({{ JobLocationEnumToStringMap[props.job.location] }})
                         </span>
                     </template>
                 </p>

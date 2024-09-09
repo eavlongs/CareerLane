@@ -10,6 +10,10 @@ export type JobPost = {
     logo: string | null;
     salary: [number, number] | number | null;
     is_salary_negotiable: boolean;
+    is_active: boolean;
+    category_id: string;
+    original_deadline: Date;
+    extended_deadline: Date | null;
     created_at: Date;
 };
 

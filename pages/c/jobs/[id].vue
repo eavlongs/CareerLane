@@ -1,72 +1,86 @@
 <template>
     <PageWrapper>
-        <Section title="Create New Job" :noData="false">
+        <Section title="Job Description" :noData="false">
             <UForm ref="formRef" :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
                 <UFormGroup label="Job Title" name="job_title" required>
-                    <UInput v-model="state.job_title" />
+                    <UInput v-model="state.job_title" :disabled="!job?.is_active" />
                 </UFormGroup>
 
                 <UFormGroup label="Job Category" name="category" required>
-                    <USelect v-model="state.category" :options="jobCategories" value-attribute="id"
-                      option-attribute="name" />
+                    <USelect v-model="state.category" :options="jobCategories.data!.categories" value-attribute="id"
+                      option-attribute="name" :disabled="!job?.is_active" />
                 </UFormGroup>
 
                 <UFormGroup label="Work Location" name="location" required>
-                    <USelect v-model="state.location" :options="locations" value-attribute="id"
-                      option-attribute="name" />
+                    <USelect v-model="state.location" :options="locations" value-attribute="id" option-attribute="name"
+                      :disabled="!job?.is_active" />
                 </UFormGroup>
 
                 <UFormGroup label="Job Type" name="type" required>
-                    <USelect v-model="state.type" :options="jobTypes" value-attribute="id" option-attribute="name" />
+                    <USelect v-model="state.type" :options="jobTypes" value-attribute="id" option-attribute="name"
+                      :disabled="!job?.is_active" />
                 </UFormGroup>
 
                 <UFormGroup label="Salary Type" name="salary_type" required>
-                    <URadio v-for="sType of salaryTypes" :key="sType.value" v-model="state.selectedSType"
-                      v-bind="sType" />
+                    <URadio v-for="sType of salaryTypes" :key="sType.value" v-model="state.selectedSType" v-bind="sType"
+                      :disabled="!job?.is_active" />
                 </UFormGroup>
 
                 <template v-if="state.selectedSType == 'exact'">
                     <UFormGroup label="Salary" name="salary">
-                        <UInput v-model="state.salary" type="number" />
+                        <UInput v-model="state.salary" type="number" :disabled="!job?.is_active" />
                     </UFormGroup>
                 </template>
 
                 <template v-else-if="state.selectedSType == 'range'">
                     <UFormGroup label="Salary Start Range" name="salary_start_range" required>
-                        <UInput v-model="state.salary_start_range" type="number" />
+                        <UInput v-model="state.salary_start_range" type="number" :disabled="!job?.is_active" />
                     </UFormGroup>
                     <UFormGroup label="Salary End Range" name="salary_end_range" required>
-                        <UInput v-model="state.salary_end_range" type="number" />
+                        <UInput v-model="state.salary_end_range" type="number" :disabled="!job?.is_active" />
                     </UFormGroup>
                 </template>
 
                 <UFormGroup name="is_salary_negotiable">
                     <UCheckbox v-model="state.is_salary_negotiable" name="is_salary_negotiable" label="Negotiable?"
-                      :disabled="state.selectedSType == 'exact' && !state.salary" />
+                      :disabled="!job?.is_active || (state.selectedSType == 'exact' && !state.salary)" />
                 </UFormGroup>
 
                 <UFormGroup name="description" label="Description" required>
-                    <UTextarea v-model="state.description" resize :rows="10" />
+                    <UTextarea v-model="state.description" resize :rows="10" :disabled="!job?.is_active" />
                 </UFormGroup>
 
-                <UFormGroup label="Deadline" name="deadline" required>
+                <UFormGroup label="Original Deadline" name="original_deadline" required>
+                    <UButton icon="i-heroicons-calendar-days-20-solid"
+                      :label="format(state.original_deadline!, 'd MMM, yyy')" disabled />
+                </UFormGroup>
+
+                <UFormGroup label="Extended Deadline" name="extended_deadline" required>
                     <UPopover :popper="{ placement: 'bottom-start' }">
                         <div class="flex items-center gap-x-2">
                             <UButton icon="i-heroicons-calendar-days-20-solid"
-                              :label="format(state.deadline, 'd MMM, yyy')" />
+                              :label="format(state.extended_deadline!, 'd MMM, yyy')" :disabled="!job?.is_active" />
 
                             ({{ daysFromNow }} {{ daysFromNow >= 2 ? "days" : "day" }} from now)
                         </div>
 
-                        <template #panel="{ close }">
-                            <DatePicker v-model="state.deadline" is-required @close="close" :minDate="new Date()" />
+                        <template #panel="{ close }" v-if="!job?.is_active">
+                            <DatePicker v-model="state.extended_deadline" is-required @close="close"
+                              :minDate="state.original_deadline" />
                         </template>
                     </UPopover>
                 </UFormGroup>
 
-                <UButton type="submit" size="md" color="green" class="block ml-auto">
-                    Submit
-                </UButton>
+                <template v-if="job?.is_active">
+                    <div class="flex items-center gap-x-4 justify-end">
+                        <UButton type="button" @click="stopAcceptingApplications" size="md" color="red">
+                            Stop Accepting Applications
+                        </UButton>
+                        <UButton type="submit" size="md" color="green">
+                            Update
+                        </UButton>
+                    </div>
+                </template>
             </UForm>
         </Section>
     </PageWrapper>
@@ -76,13 +90,20 @@
 import { z } from 'zod';
 import type { FormSubmitEvent } from '#ui/types'
 import { differenceInCalendarDays, format } from 'date-fns'
-import type { ApiResponse, Category } from '~/utils/types';
+import { type JobPost, type ApiResponse, type Category } from '~/utils/types';
 
 definePageMeta({
     layout: "company-layout"
 })
 
-const daysFromNow = computed(() => differenceInCalendarDays(state.deadline, new Date()))
+const { data: jobCategories } = await useAPI<ApiResponse<{
+    categories: Category[]
+}>>("/jobs/categories")
+
+const route = useRoute()
+const id = route.params.id
+
+const daysFromNow = computed(() => differenceInCalendarDays(state.extended_deadline!, new Date()))
 
 const locations = Array.from({ length: JobLocationEnum._LENGTH }).map((_, index) => {
     return {
@@ -109,10 +130,6 @@ const salaryTypes = [
     }
 ]
 
-const jobCategories = ref<Category[]>([])
-
-await getCategories()
-
 const formRef = ref()
 
 const { $api } = useNuxtApp()
@@ -129,7 +146,7 @@ const schema = z.object({
     selectedSType: z.enum(['exact', 'range']),
     is_salary_negotiable: z.boolean(),
     description: z.string().min(1, 'Description is required').max(3000, 'Description must be at most 3000 characters'),
-    deadline: z.date().refine((value) => value > new Date(), 'Deadline must be in the future').refine((value) => differenceInCalendarDays(value, new Date()) <= 365, 'Deadline must be within a year from now')
+    extended_deadline: z.date().refine((value) => value > new Date(), 'Deadline must be in the future').refine((value) => differenceInCalendarDays(value, new Date()) <= 365, 'Deadline must be within a year from now').refine((value) => state.original_deadline!.getTime() <= value.getTime(), 'Extended deadline must be after the original deadline')
 }).refine((obj) => {
     if (obj.selectedSType == 'exact' && !obj.salary && !obj.is_salary_negotiable) {
         return false
@@ -167,10 +184,11 @@ const state = reactive<{
     selectedSType: 'exact' | 'range';
     is_salary_negotiable: boolean;
     description: string | undefined;
-    deadline: Date
+    original_deadline: Date | undefined;
+    extended_deadline: Date | undefined;
 }>({
     job_title: undefined,
-    category: jobCategories.value.length > 0 ? jobCategories.value[0].id : undefined,
+    category: undefined,
     location: locations[0].id,
     type: jobTypes[0].id,
     salary: undefined,
@@ -179,8 +197,11 @@ const state = reactive<{
     selectedSType: salaryTypes[0].value as any,
     is_salary_negotiable: true,
     description: undefined,
-    deadline: new Date()
+    original_deadline: undefined,
+    extended_deadline: undefined
 })
+
+const job = ref<JobPost>()
 
 watch(state, (value) => {
     if (typeof state.location == 'string') state.location = parseInt(state.location)
@@ -201,8 +222,8 @@ type Schema = z.output<typeof schema>
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     try {
         const data = event.data
-        const response = await $api<ApiResponse>("jobs", {
-            method: "POST",
+        const response = await $api<ApiResponse>(`jobs/${job.value!.id}`, {
+            method: "PATCH",
             body: JSON.stringify({
                 "job_title": data.job_title,
                 "category_id": data.category,
@@ -213,7 +234,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                 "salary_end_range": data.salary_end_range,
                 "is_salary_negotiable": data.is_salary_negotiable,
                 "description": data.description,
-                "deadline": data.deadline.toISOString()
+                "extended_deadline": data.extended_deadline.toISOString()
             })
         })
 
@@ -236,13 +257,37 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     }
 }
 
-async function getCategories() {
-    const { data, status } = await useAPI<ApiResponse<{
-        categories: Category[]
-    }>>("/jobs/categories")
+const { data, status } = await useAPI<ApiResponse<{ job: JobPost }>>(`/jobs/${id}`)
+if (status.value == "success") {
+    job.value = data.value.data!.job
 
-    jobCategories.value = data.value.data!.categories
-    if (status.value == "success") {
+    state.job_title = job.value.title
+    state.category = job.value.category_id
+    state.location = job.value.location
+    state.type = job.value.type
+    state.salary = typeof job.value.salary == 'number' ? job.value.salary : undefined
+    state.salary_start_range = Array.isArray(job.value.salary) ? job.value.salary[0] : undefined
+    state.salary_end_range = Array.isArray(job.value.salary) ? job.value.salary[1] : undefined
+    state.selectedSType = typeof job.value.salary == 'number' ? 'exact' : 'range'
+    state.is_salary_negotiable = (job.value.is_salary_negotiable as any) == 0 ? false : true
+    state.description = job.value.description
+    state.original_deadline = new Date(job.value.original_deadline)
+    state.extended_deadline = job.value.extended_deadline ? new Date(job.value.extended_deadline) : state.original_deadline
+}
+
+async function stopAcceptingApplications() {
+    try {
+        const response = await $api<ApiResponse>(`/jobs/${job.value!.id}/inactive`, {
+            method: "PATCH"
+        })
+
+        if (!response.success) {
+            throw new Error(response.message)
+        }
+        toastSuccessMessage(toast, response.message)
+        navigateTo("/c/jobs")
+    } catch (e: any) {
+        toastErrorMessage(toast, e.message)
     }
 }
 
