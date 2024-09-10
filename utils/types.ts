@@ -75,7 +75,14 @@ export type ApiResponse<T = any> = Prettify<{
     error?: {
         [key: string]: string;
     };
-    data?: T;
+    data?: T & {
+        meta?: {
+            per_page: number;
+            total: number;
+            current_page: number;
+            last_page: number;
+        };
+    };
 }>;
 
 export type Prettify<T> = {

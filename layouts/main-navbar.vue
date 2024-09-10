@@ -68,7 +68,7 @@
                                         </h1>
                                     </UButton>
 
-                                    <LogOut />
+                                    <LogOutButton />
                                 </div>
                             </template>
                         </div>
