@@ -134,7 +134,7 @@
                                         </h1>
                                     </UButton>
 
-                                    <LogOutButton class="ml-4" />
+                                    <LogOutButton />
                                 </div>
                             </template>
                         </div>

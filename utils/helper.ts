@@ -3,7 +3,7 @@ import type { ZodValidationError } from "./types";
 
 export function queryBuilder(
     path: string,
-    query: Record<string, string>
+    query: Record<string, string | number | boolean>
 ): string {
     const queryString = Object.keys(query)
         .map((key) => `${key}=${encodeURIComponent(query[key])}`)
