@@ -35,7 +35,9 @@
                         <UButton variant="ghost" color="black"
                           class="flex gap-x-2 hover:bg-gray-200 max-w-[27rem] items-center" to="/c/profile">
 
-                            <UAvatar :src="user!.avatar_url ?? COMPANY_LOGO_FALLBACK" size="lg" />
+                            <UAvatar
+                              :src="user?.avatar_url ? (`${runtimeConfig.public.storageUrlPrefix}${user.avatar_url}`) : COMPANY_LOGO_FALLBACK"
+                              size="lg" img-class="object-contain" />
 
                             <h1 class="font-semibold text-lg line-clamp-1">{{ user!.name }}</h1>
 
@@ -63,6 +65,7 @@ const navLinks: { name: string; path: string }[] = [
 ]
 
 const user = useUser()
+const runtimeConfig = useRuntimeConfig()
 
 </script>
 
