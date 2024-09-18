@@ -99,11 +99,6 @@
                                 <UButton variant="ghost" to="/register"
                                     >Register</UButton
                                 >
-                                <Button
-                                    @submit.prevent="sendEmail"
-                                    type="submit"
-                                    >Send Email</Button
-                                >
                             </template>
 
                             <template
@@ -112,6 +107,7 @@
                                 <UButton to="/c/dashboard" size="md"
                                     >Dashboard</UButton
                                 >
+                                <Button @click="sendEmail">Send Email</Button>
                                 <LogOutButton />
                             </template>
 
@@ -150,13 +146,17 @@
 
 <script lang="ts" setup>
 const { $api } = useNuxtApp();
+const user = useUser();
 async function sendEmail() {
     // Prevent the default form submission behavior
     const response = await $api<{
         success: boolean;
         message: string;
-    }>("/test_email", {
-        method: "GET",
+    }>("/test-email", {
+        method: "POST",
+        body: JSON.stringify({
+            session_id: session.value,
+        }),
     });
 
     if (response.success) {
@@ -169,7 +169,9 @@ const navLinks: { name: string; path: string }[] = [
     { name: "Jobs", path: "/jobs" },
     { name: "Companies", path: "/companies" },
 ];
-
+const session = useCookie("auth_session");
+const sessionData = session.value;
+console.log(sessionData);
 const route = useRoute();
 const isOpen = ref(false);
 
@@ -179,8 +181,6 @@ useHead({
     //     { name: 'description', content: '' }
     // ],
 });
-
-const user = useUser();
 </script>
 
 <style></style>
