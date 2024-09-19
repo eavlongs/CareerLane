@@ -1,4 +1,5 @@
 import { DatabaseSession, DatabaseUser, UserId } from "lucia";
+import { ApiResponse } from "~/utils/types";
 
 const apiUrl = process.env.NUXT_PUBLIC_API_URL as string;
 
@@ -50,7 +51,7 @@ export default class CustomAdapter {
     }
     public async setSession(session: DatabaseSession): Promise<void> {
         console.log({ session });
-        const response = await $fetch(`${apiUrl}/sessions`, {
+        const response = await $fetch<ApiResponse>(`${apiUrl}/sessions`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -86,9 +87,12 @@ export default class CustomAdapter {
 
     public async deleteSession(sessionId: string): Promise<void> {
         console.log({ sessionId });
-        const response = await $fetch(`${apiUrl}/sessions/${sessionId}`, {
-            method: "DELETE",
-        });
+        const response = await $fetch<ApiResponse>(
+            `${apiUrl}/sessions/${sessionId}`,
+            {
+                method: "DELETE",
+            }
+        );
 
         if (!response.success) {
             throw new Error("Failed to delete session");
