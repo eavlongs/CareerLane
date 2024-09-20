@@ -107,7 +107,7 @@
                                 <UButton to="/c/dashboard" size="md"
                                     >Dashboard</UButton
                                 >
-                                <Button @click="sendEmail">Send Email</Button>
+
                                 <LogOutButton />
                             </template>
 
@@ -147,20 +147,6 @@
 <script lang="ts" setup>
 const { $api } = useNuxtApp();
 const user = useUser();
-async function sendEmail() {
-    // Prevent the default form submission behavior
-    const response = await useFetch<ApiResponse>(
-        "http://localhost:8000/api/test-email",
-        {
-            method: "POST",
-            credentials: "include",
-        }
-    );
-
-    if (response.data.value?.success) {
-        navigateTo("/");
-    }
-}
 
 const navLinks: { name: string; path: string }[] = [
     { name: "About Us", path: "/about-us" },

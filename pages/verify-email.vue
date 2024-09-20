@@ -38,17 +38,19 @@ const messageClass = computed(() => {
 async function sendVerifyEmail() {
     try {
         loading.value = true;
-        const response = await useFetch<{ success: boolean; message: string }>(
-            "/api/test-email",
+
+        const response = await useFetch<ApiResponse>(
+            "http://localhost:8000/api/test-email",
             {
                 method: "POST",
-                credentials: "include", // Sends the session cookie along with the request
+                credentials: "include",
             }
         );
 
         if (response.data.value?.success) {
             success.value = true;
             message.value = "Verification email sent successfully!";
+            navigateTo("/");
         } else {
             success.value = false;
             message.value =
