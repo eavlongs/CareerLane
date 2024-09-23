@@ -22,12 +22,14 @@
 </template>
 
 <script setup lang="ts">
+import { navigateTo, useFetch } from "nuxt/app";
 import { computed, ref } from "vue";
 
 // States to manage success message, loading state, and error
 const success = ref(false);
 const message = ref("");
 const loading = ref(false);
+const { $api } = useNuxtApp();
 
 // Computed property to return appropriate classes for success/error message
 const messageClass = computed(() => {
@@ -38,7 +40,9 @@ const messageClass = computed(() => {
 async function sendVerifyEmail() {
     try {
         loading.value = true;
-
+        // const response = await $api("test-email", {
+        //     method: "POST",
+        // });
         const response = await useFetch<ApiResponse>(
             "http://localhost:8000/api/test-email",
             {
