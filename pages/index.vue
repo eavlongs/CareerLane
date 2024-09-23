@@ -1,24 +1,14 @@
 <template>
-    <div class="my-6 section w-full">
-        <p class="text-xl md:text-2xl font-semibold">
-            Search for the job you're looking for ...
-        </p>
+    <Section class="my-6" title="" :no-data="false">
+        <p class="text-xl md:text-2xl font-semibold">Search for the job you're looking for ...</p>
         <div class="flex gap-x-4 items-center w-full mt-4">
             <JobSearchBar v-model="query" class="w-full" />
             <JobSearchBarButton :query="query" />
         </div>
-    </div>
+    </Section>
 
-    <JobPostSection
-        class="mb-6"
-        title="Recent Jobs"
-        :jobs="recentJobs"
-        see-all-job-link="/jobs?sort=latest"
-    />
-    <CompaniesSection
-        title="Featured Companies"
-        :companies="featuredCompanies"
-    />
+    <JobPostSection class="mb-6" title="Recent Jobs" :jobs="recentJobs" see-all-job-link="/jobs?sort=latest" />
+    <CompaniesSection title="Featured Companies" :companies="featuredCompanies" />
 </template>
 
 <script lang="ts" setup>

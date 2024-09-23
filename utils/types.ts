@@ -109,3 +109,13 @@ export const ACCEPTED_IMAGE_TYPES = [
 ];
 
 export const LOGO_MAX_FILE_SIZE = 1024 * 1024 * 20; // 20MB
+
+export type JobSearchOptions = {
+    page: number;
+    limit: number;
+    category_id?: string;
+    province_id?: string;
+    type?: JobTypeEnum;
+    location?: JobLocationEnum;
+    min_salary?: number;
+};
