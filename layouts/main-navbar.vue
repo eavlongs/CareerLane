@@ -51,22 +51,19 @@
                             <template v-if="!user">
                                 <UButton variant="ghost" to="/login">Log In</UButton>
                                 <UButton variant="ghost" to="/register">Register</UButton>
-                                <UButton @submit.prevent="sendEmail" type="submit">Send Email</UButton>
                             </template>
 
                             <template v-else-if="user.role == UserTypeEnum.Company">
-                                <div class="flex gap-x-2">
-                                    <UButton to="/c/dashboard" size="md">Dashboard</UButton>
-                                    <LogOutButton />
-                                </div>
+                                <UButton to="/c/dashboard" size="md">Dashboard</UButton>
+
+                                <LogOutButton />
                             </template>
 
                             <template v-else>
                                 <div class="hidden md:flex items-center">
                                     <UButton variant="ghost" color="black"
                                       class="flex gap-x-2 ml-auto hover:bg-gray-200 max-w-[27rem] items-center">
-                                        <UAvatar :src="`${runtimeConfig.public.storageUrlPrefix}${user.avatar_url}`"
-                                          size="md" class="border" img-class="object-contain" />
+                                        <UAvatar src="/user.png" size="md" class="border" />
                                         <h1 class="font-semibold text-lg line-clamp-1">
                                             {{ user.name }}
                                         </h1>
@@ -88,27 +85,13 @@
 
 <script lang="ts" setup>
 const { $api } = useNuxtApp();
-async function sendEmail() {
-    // Prevent the default form submission behavior
-    const response = await $api<{
-        success: boolean;
-        message: string;
-    }>("/test_email", {
-        method: "GET",
-    });
-
-    if (response.success) {
-        navigateTo("/");
-    }
-}
+const user = useUser();
 
 const navLinks: { name: string; path: string }[] = [
     { name: "About Us", path: "/about-us" },
     { name: "Jobs", path: "/jobs" },
     { name: "Companies", path: "/companies" },
 ];
-
-const runtimeConfig = useRuntimeConfig();
 
 const route = useRoute();
 const isOpen = ref(false);
@@ -119,8 +102,6 @@ useHead({
     //     { name: 'description', content: '' }
     // ],
 });
-
-const user = useUser();
 </script>
 
 <style></style>
