@@ -51,7 +51,7 @@
                             <template v-if="!user">
                                 <UButton variant="ghost" to="/login">Log In</UButton>
                                 <UButton variant="ghost" to="/register">Register</UButton>
-                                <Button @submit.prevent="sendEmail" type="submit">Send Email</Button>
+                                <UButton @submit.prevent="sendEmail" type="submit">Send Email</UButton>
                             </template>
 
                             <template v-else-if="user.role == UserTypeEnum.Company">
