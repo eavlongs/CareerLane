@@ -1,9 +1,22 @@
 <template>
-    <UCard class="w-[90%] sm:w-[390px] md:w-[420px] bg-white md:mx-auto p-4 shadow-lg">
-        <p class="font-bold text-2xl text-center mb-8">Register Company Account</p>
-        <UForm :schema="schema" :state="state" @submit.prevent="signUp" class="grid gap-4" method="post">
+    <UCard
+        class="w-[90%] sm:w-[390px] md:w-[420px] bg-white md:mx-auto p-4 shadow-lg"
+    >
+        <p class="font-bold text-2xl text-center mb-8">
+            Register Company Account
+        </p>
+        <UForm
+            :schema="schema"
+            :state="state"
+            @submit.prevent="signUp"
+            class="grid gap-4"
+            method="post"
+        >
             <UFormGroup label="Comany Name" name="company_name" required>
-                <UInput v-model="state.company_name" placeholder="Company Name" />
+                <UInput
+                    v-model="state.company_name"
+                    placeholder="Company Name"
+                />
             </UFormGroup>
 
             <UFormGroup label="Email" name="email" required>
@@ -11,24 +24,47 @@
             </UFormGroup>
 
             <UFormGroup label="Password" name="password" required>
-                <UInput v-model="state.password" type="password" placeholder="********"
-                  aria-autocomplete="new-password" />
+                <UInput
+                    v-model="state.password"
+                    type="password"
+                    placeholder="********"
+                    aria-autocomplete="new-password"
+                />
             </UFormGroup>
 
-            <UFormGroup label="Confirm Password" name="confirm_password" required>
-                <UInput v-model="state.confirm_password" type="password" placeholder="********"
-                  aria-autocomplete="new-password" />
+            <UFormGroup
+                label="Confirm Password"
+                name="confirm_password"
+                required
+            >
+                <UInput
+                    v-model="state.confirm_password"
+                    type="password"
+                    placeholder="********"
+                    aria-autocomplete="new-password"
+                />
             </UFormGroup>
 
             <UFormGroup label="Province/City" name="province" required>
-                <USelect v-model="state.province" :options="provincesResponse.data?.provinces" value-attribute="id"
-                  option-attribute="name" />
+                <USelect
+                    v-model="state.province"
+                    :options="provincesResponse.data?.provinces"
+                    value-attribute="id"
+                    option-attribute="name"
+                />
             </UFormGroup>
 
             <UFormGroup label="Upload Logo" name="logo" required>
-                <UInput type="file" icon="i-heroicons-folder" :accept="ACCEPTED_IMAGE_TYPES.join(',')" @change="$event => {
-                    state.logo = $event[0];
-                }" />
+                <UInput
+                    type="file"
+                    icon="i-heroicons-folder"
+                    :accept="ACCEPTED_IMAGE_TYPES.join(',')"
+                    @change="
+                        ($event) => {
+                            state.logo = $event[0];
+                        }
+                    "
+                />
             </UFormGroup>
 
             <UButton type="submit" class="block mx-auto" size="lg">
@@ -45,7 +81,9 @@ import { type Province } from "~/utils/types";
 
 const provinces = ref<Province[]>([]);
 
-const { data: provincesResponse } = await useAPI<ApiResponse<{ provinces: Province[] }>>("/provinces");
+const { data: provincesResponse } = await useAPI<
+    ApiResponse<{ provinces: Province[] }>
+>("/provinces");
 
 if (provincesResponse.value.success) {
     provinces.value = provincesResponse.value.data?.provinces ?? [];
@@ -57,7 +95,7 @@ const state = reactive({
     confirm_password: undefined,
     company_name: undefined,
     logo: undefined,
-    province: provinces.value[0].id
+    province: provinces.value[0].id,
 });
 
 const schema = z
@@ -69,11 +107,14 @@ const schema = z
         province: z.string(),
         logo: z
             .any()
-            .refine((file) => file?.size <= LOGO_MAX_FILE_SIZE, `Max image size is ${LOGO_MAX_FILE_SIZE / (1024 * 1024)}MB.`)
+            .refine(
+                (file) => file?.size <= LOGO_MAX_FILE_SIZE,
+                `Max image size is ${LOGO_MAX_FILE_SIZE / (1024 * 1024)}MB.`
+            )
             .refine(
                 (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
                 "Only .jpg, .jpeg, .png and .webp formats are supported."
-            )
+            ),
     })
     .refine(
         (obj) => {
@@ -101,5 +142,4 @@ async function signUp(e: FormSubmitEvent<Schema>) {
         navigateTo("/");
     }
 }
-
 </script>

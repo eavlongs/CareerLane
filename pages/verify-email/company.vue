@@ -19,34 +19,34 @@
 </template>
 
 <script setup lang="ts">
+import { navigateTo, useFetch } from "nuxt/app";
 import { computed, ref } from "vue";
 
 // States to manage success message, loading state, and error
 const success = ref(false);
 const message = ref("");
 const loading = ref(false);
+const { $api } = useNuxtApp();
 
 // Computed property to return appropriate classes for success/error message
 const messageClass = computed(() => {
     return success.value ? "text-green-600" : "text-red-600";
 });
 
-const { $api } = useNuxtApp();
 // Function to handle the email verification request
 async function sendVerifyEmail() {
     try {
         loading.value = true;
-
-        const response = await $api("/test-email", {
-            method: "POST"
-        })
-        // const response = await useFetch<ApiResponse>(
-        //     "http://localhost:8000/api/test-email",
-        //     {
-        //         method: "POST",
-        //         credentials: "include",
-        //     }
-        // );
+        // const response = await $api("test-email", {
+        //     method: "POST",
+        // });
+        const response = await useFetch<ApiResponse>(
+            "http://localhost:8000/api/test-email",
+            {
+                method: "POST",
+                credentials: "include",
+            }
+        );
 
         if (response.data.value?.success) {
             success.value = true;
