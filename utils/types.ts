@@ -7,7 +7,7 @@ export type JobPost = {
     company_location: string;
     company_id: string;
     company_name: string;
-    logo: string | null;
+    logo_url: string | null;
     salary: [number, number] | number | null;
     is_salary_negotiable: boolean;
     is_active: boolean;
@@ -21,7 +21,7 @@ export type JobPost = {
 export type Company = {
     id: string;
     name: string;
-    logo: string | null;
+    logo_url: string | null;
     location: string;
     description: string;
 };
@@ -76,14 +76,16 @@ export type ApiResponse<T = any> = Prettify<{
         [key: string]: string;
     };
     data?: T & {
-        meta?: {
-            per_page: number;
-            total: number;
-            current_page: number;
-            last_page: number;
-        };
+        meta?: PaginationMetaData;
     };
 }>;
+
+export type PaginationMetaData = {
+    per_page: number;
+    total: number;
+    current_page: number;
+    last_page: number;
+};
 
 export type Prettify<T> = {
     [K in keyof T]: T[K];

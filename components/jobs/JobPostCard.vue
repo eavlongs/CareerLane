@@ -1,8 +1,8 @@
 <template>
     <div class="border mb-1 border-gray-200 flex rounded items-center p-1 md:p-2 gap-x-2 hover:bg-gray-50">
         <NuxtLink :to="jobLink" class="peer">
-            <img :src="props.job.logo ?? COMPANY_LOGO_FALLBACK"
-              class="rounded border shadow-sm h-24 w-32 max-h-24 max-w-32 md:h-24 md:w-40 md:max-h-24 md:max-w-40 object-cover mr-2 md:mr-4 lg:mr-6" />
+            <img :src="prefixStorageUrl(props.job.logo_url) ?? COMPANY_LOGO_FALLBACK"
+              class="rounded border shadow-sm h-24 w-32 max-h-24 max-w-32 md:h-24 md:w-40 md:max-h-24 md:max-w-40 object-contain mr-2 md:mr-4 lg:mr-6" />
         </NuxtLink>
         <!-- TODO: add UI for save job -->
         <div class="flex-grow peer">
