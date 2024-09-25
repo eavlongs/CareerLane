@@ -1,10 +1,9 @@
 <template>
     <UCard class="w-[90%] sm:w-[370px] md:w-[400px] bg-white p-4 shadow-lg">
-        <p class="font-bold text-2xl text-center mb-8">Reset Password</p>
+        <p class="font-bold text-2xl text-center mb-8">Change Password</p>
 
         <!-- Form for resetting the password -->
         <UForm
-            :schema="schema"
             @submit.prevent="changePassword"
             class="grid gap-4"
             method="post"
@@ -46,12 +45,12 @@ const state = reactive({
     new_confirm_password: undefined,
 });
 
-const runTimeConfig = useRuntimeConfig();
+const runtimeConfig = useRuntimeConfig();
 async function changePassword() {
     const response = await $fetch<{
         success: boolean;
         message: string;
-    }>("http://localhost:8000/api/change-password", {
+    }>(`${runtimeConfig.public.apiURL}/change-password`, {
         method: "POST",
         body: JSON.stringify({
             old_password: state.old_password,
