@@ -18,6 +18,12 @@
                         </UButton>
                     </div>
                 </template>
+                <template v-else-if="pagination">
+                    <div class="flex justify-center mt-6">
+                        <UPagination :max="5" :page-count="pagination.per_page" :total="pagination.total"
+                          :model-value="pagination.current_page" @update:model-value="onPageChange" />
+                    </div>
+                </template>
 
                 <!-- TODO: add a condition for pagination -->
             </template>
@@ -26,6 +32,8 @@
 </template>
 
 <script lang="ts" setup>
+import type { PaginationMetaData } from '~/utils/types';
+
 type Props = {
     title: string;
     class?: string;
@@ -36,6 +44,7 @@ type Props = {
         text?: string;
     };
     noData: boolean;
+    pagination?: PaginationMetaData
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -45,6 +54,12 @@ const props = withDefaults(defineProps<Props>(), {
         text: "No data found"
     }
 })
+
+const emits = defineEmits(["pageChange"]);
+
+const onPageChange = (page: number) => {
+    emits("pageChange", page);
+}
 </script>
 
 <style></style>

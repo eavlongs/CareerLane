@@ -1,15 +1,7 @@
 <template>
-    <div>
-        <UButton
-            color="red"
-            size="md"
-            :class="class"
-            leading-icon="ic:outline-log-out"
-            @click="logOut"
-            type="submit"
-            >Log Out
-        </UButton>
-    </div>
+    <UButton color="red" size="md" :class="class" leading-icon="ic:outline-log-out" @click="logOut" type="submit">Log
+        Out
+    </UButton>
 </template>
 
 <script lang="ts" setup>

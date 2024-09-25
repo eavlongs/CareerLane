@@ -90,3 +90,12 @@ export function toastSuccessMessage(
         },
     });
 }
+
+export function prefixStorageUrl(
+    url: string | null | undefined
+): string | null {
+    const runtimeConfig = useRuntimeConfig();
+
+    if (!url) return null;
+    return `${runtimeConfig.public.storageUrlPrefix}${url}`;
+}

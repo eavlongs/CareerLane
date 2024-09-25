@@ -10,11 +10,8 @@
         </div>
 
         <!-- Button to send the verification email -->
-        <button
-            @click="sendVerifyEmail"
-            :disabled="loading"
-            class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50"
-        >
+        <button @click="sendVerifyEmail" :disabled="loading"
+          class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50">
             <template v-if="loading"> Sending... </template>
             <template v-else> Send Verification Email </template>
         </button>

@@ -54,9 +54,10 @@
                             </template>
 
                             <template v-else-if="user.role == UserTypeEnum.Company">
-                                <UButton to="/c/dashboard" size="md">Dashboard</UButton>
-
-                                <LogOutButton />
+                                <div class="flex gap-x-2">
+                                    <UButton to="/c/dashboard" size="md">Dashboard</UButton>
+                                    <LogOutButton />
+                                </div>
                             </template>
 
                             <template v-else>
