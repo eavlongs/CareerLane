@@ -34,22 +34,24 @@ const jobSearchOptions = ref<JobSearchOptions>({
     limit
 });
 
-const { data: jobSearchResponse, refresh, status } = await useAPI<ApiResponse<{ jobs: JobPost[] }>>('/jobs', {
-    query: {
-        q: query.value
-    }
-})
+const fetchJobs = async () => {
+    const { data } = await useAPI<ApiResponse<{ jobs: JobPost[] }>>('/jobs', {
+        query: {
+            q: query.value
+        }
+    })
+}
+
+await fetchJobs();
 
 watch(query, () => {
     resultName.value = query.value ? `Search Results for "${query.value}"` : "Results";
-    refresh()
+    fetchJobs()
 })
 
 const updateQuery = (_query: string) => {
     query.value = _query;
 }
-
-// query jobs
 
 </script>
 
