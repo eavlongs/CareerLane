@@ -103,15 +103,6 @@ export type ZodValidationError = {
     message: string;
 };
 
-export const ACCEPTED_IMAGE_TYPES = [
-    "image/jpeg",
-    "image/jpg",
-    "image/png",
-    "image/webp",
-];
-
-export const LOGO_MAX_FILE_SIZE = 1024 * 1024 * 20; // 20MB
-
 export type JobSearchOptions = {
     page: number;
     limit: number;
