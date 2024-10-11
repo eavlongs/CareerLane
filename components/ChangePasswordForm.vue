@@ -47,24 +47,27 @@ const state = reactive({
 
 const runtimeConfig = useRuntimeConfig();
 async function changePassword() {
-    const response = await $fetch<{
-        success: boolean;
-        message: string;
-    }>(`${runtimeConfig.public.apiURL}/change-password`, {
-        method: "POST",
-        body: JSON.stringify({
-            old_password: state.old_password,
-            new_password: state.new_password,
-            new_confirm_password: state.new_confirm_password,
-        }),
-        credentials: "include",
-    });
+    const response = await useFetch<ApiResponse>(
+        "http://localhost:8000/api/change-password",
+        {
+            method: "POST",
+            body: JSON.stringify({
+                old_password: state.old_password,
+                new_password: state.new_password,
+                new_confirm_password: state.new_confirm_password,
+            }),
+            credentials: "include",
+        }
+    );
 
-    if (response.success) {
+    if (response.data.value?.success) {
         alert("Your Password has been change");
         navigateTo("/");
     } else {
-        alert(response.message || "Failed to send change the password.");
+        alert(
+            response.data.value?.message ||
+                "Failed to send change the password."
+        );
     }
 }
 </script>

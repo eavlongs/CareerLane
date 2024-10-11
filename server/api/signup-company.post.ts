@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
         data?: {
             account_id: string;
         };
-    }>(`${runtimeConfig.public.apiURL}/register-company`, {
+    }>(`${runtimeConfig.public.apiURL}/auth/register-company`, {
         method: "POST",
         body: formData,
         ignoreResponseError: true,

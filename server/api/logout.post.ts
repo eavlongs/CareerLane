@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
 
     const runtimeConfig = useRuntimeConfig();
     const response = await $fetch<ApiResponse>(
-        `${runtimeConfig.public.apiURL}/logout`,
+        `${runtimeConfig.public.apiURL}/auth/logout`,
         {
             method: "POST",
         }
