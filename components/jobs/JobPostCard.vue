@@ -10,8 +10,8 @@
                 {{ props.job.title }}
             </ULink>
             <div class="flex flex-col gap-y-1 text-xs md:text-sm mt-1 leading-none md:leading-normal">
-                <ULink :to="`/companies/{job.company_id}`" class="inline-block line-clamp-1">{{ props.job.company_name
-                    }}
+                <ULink :to="`/companies/{job.company_id}`" class="inline line-clamp-1 mr-auto">
+                    {{ props.job.company_name }}
                 </ULink>
                 <p class="line-clamp-1">
                     <template v-if="props.job.location == JobLocationEnum.Remote">
@@ -19,9 +19,8 @@
                     </template>
                     <template v-else>
                         {{ props.job.company_location }}
-                        <span class="ml-1"
-                          v-if="[JobLocationEnum.Onsite, JobLocationEnum.Hybrid].includes(props.job.location)">
-                            ({{ JobLocationEnumToStringMap[props.job.location] }})
+                        <span v-if="[JobLocationEnum.Onsite, JobLocationEnum.Hybrid].includes(props.job.location)">
+                            {{ JobLocationEnumToStringMap[props.job.location] }}
                         </span>
                     </template>
                 </p>
@@ -31,12 +30,15 @@
                         JobTypeEnumToStringMap[props.job.type] }}
                     </span>
                     <span class="border-r px-1 md:px-2 border-black">
-                        <template v-if="props.job.salary">
-                            <template v-if="typeof props.job.salary == 'number'">
+                        <template
+                          v-if="props.job.salary || (props.job.salary_start_range && props.job.salary_end_range)">
+                            <template v-if="props.job.salary">
                                 {{ formatToCurrency(props.job.salary) }}
                             </template>
-                            <template v-else>
-                                {{ formatToCurrency(props.job.salary[0]) }} to {{ formatToCurrency(props.job.salary[1])
+                            <template v-else-if="props.job.salary_start_range && props.job.salary_end_range">
+                                {{
+                                    formatToCurrency(props.job.salary_start_range) }} to {{
+                                    formatToCurrency(props.job.salary_end_range)
                                 }}
                             </template>
 
