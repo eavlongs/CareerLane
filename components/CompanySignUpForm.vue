@@ -3,7 +3,7 @@
         <p class="font-bold text-2xl text-center mb-8">
             Register Company Account
         </p>
-        <UForm :schema="schema" :state="state" @submit.prevent="signUp" class="grid gap-4" method="post"
+        <UForm ref="form" :schema="schema" :state="state" @submit.prevent="signUp" class="grid gap-4" method="post"
           :validateOn="['input', 'change', 'submit']">
             <UFormGroup label="Comany Name" name="company_name" required>
                 <UInput v-model="state.company_name" placeholder="Company Name" />
@@ -38,20 +38,23 @@
             </UFormGroup>
 
 
-            <UButton type="submit" class="block mx-auto" size="lg">
-                Sign Up
+            <UButton type="submit" class="block mx-auto disabled:bg-blue-300" size="lg"
+              :disabled="formSubmissionState.fetching || formSubmissionState.success">
+                {{ formSubmissionState.fetching ? "Submitting" : (formSubmissionState.success ? "Redirecting" :
+                    "Submit") }}
             </UButton>
         </UForm>
     </UCard>
 </template>
 
 <script setup lang="ts">
-import type { FormSubmitEvent } from "#ui/types";
+import type { Form, FormSubmitEvent } from "#ui/types";
 import { z } from "zod";
-import { type Province } from "~/utils/types";
+import { type FetchState, type Province } from "~/utils/types";
 import { LOGO_MAX_FILE_SIZE, ACCEPTED_IMAGE_TYPES } from "~/utils/constants"
 
 const provinces = ref<Province[]>([]);
+const { $api } = useNuxtApp();
 
 const { data: provincesResponse } = await useAPI<
     ApiResponse<{ provinces: Province[] }>
@@ -60,6 +63,8 @@ const { data: provincesResponse } = await useAPI<
 if (provincesResponse.value.success) {
     provinces.value = provincesResponse.value.data?.provinces ?? [];
 }
+
+const formSubmissionState = ref<FetchState>(DEFAULT_FETCH_STATE)
 
 const state = reactive<{
     email?: string,
@@ -88,13 +93,13 @@ const schema = z
             .any()
             // .refine(file => file, "Required")
             .refine(
-                (file) => { console.log(file && file.size && (file.size <= LOGO_MAX_FILE_SIZE)); return file && file.size && (file.size <= LOGO_MAX_FILE_SIZE) },
+                (file) => file && file.size && (file.size <= LOGO_MAX_FILE_SIZE),
                 `Max image size is ${LOGO_MAX_FILE_SIZE / (1024 * 1024)}MB.`
             )
             .refine(
-                (file) => { console.log(file && file.type && ACCEPTED_IMAGE_TYPES.includes(file.type)); return file && file.type && ACCEPTED_IMAGE_TYPES.includes(file.type) },
+                (file) => file && file.type && ACCEPTED_IMAGE_TYPES.includes(file.type),
                 "Only .jpg, .jpeg, .png and .webp formats are supported."
-            ).refine(file => { console.log("pass"); return true }),
+            )
     })
     .refine(
         (obj) => {
@@ -107,19 +112,33 @@ const schema = z
     );
 
 type Schema = z.output<typeof schema>;
+const form = ref<Form<Schema>>()
+const toast = useToast();
 
 async function signUp(e: FormSubmitEvent<Schema>) {
-    e.preventDefault(); // Prevent the default form submission behavior
-    const response = await $fetch<{
+    formSubmissionState.value.fetching = true;
+    const response = await $api<{
         success: boolean;
         message: string;
-    }>("/api/signup-company", {
+    }>("/auth/register-company", {
         method: "POST",
         body: new FormData(e.target as HTMLFormElement),
     });
 
+    formSubmissionState.value.fetching = false;
+    formSubmissionState.value.success = response.success || false;
+    formSubmissionState.value.fetched = true;
     if (response.success) {
         navigateTo("/");
+        return
+    }
+    if (response.error) {
+        const validationErrors = getValidationErrors(response.error);
+        if (validationErrors) {
+            form.value?.setErrors(validationErrors);
+        } else {
+            toastErrorMessage(toast, response.message);
+        }
     }
 }
 </script>
