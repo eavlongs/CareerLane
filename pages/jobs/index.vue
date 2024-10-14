@@ -45,7 +45,7 @@ const jobSearchOptions = ref<JobSearchOptions>({
 });
 
 const fetchJobs = async () => {
-    const { data } = await useAPI<ApiResponse<{ jobs: JobPost[] }>>('/jobs', {
+    const { data } = await useAPI<ApiResponse<{ jobs: JobPost[], meta: PaginationMetaData }>>('/jobs', {
         query: {
             q: query.value,
             page: jobsPaginationMetaData.value.current_page,

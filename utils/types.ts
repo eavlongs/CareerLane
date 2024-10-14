@@ -1,5 +1,6 @@
 export type JobPost = {
     id: string;
+    applicants: number;
     title: string;
     description: string;
     type: number;
@@ -8,12 +9,29 @@ export type JobPost = {
     company_id: string;
     company_name: string;
     logo_url: string | null;
-    salary: [number, number] | number | null;
+    salary: number | null;
+    salary_start_range: number | null;
+    salary_end_range: number | null;
     is_salary_negotiable: boolean;
     is_active: boolean;
     category_id: string;
+    category_name: string;
     original_deadline: Date;
     extended_deadline: Date | null;
+    created_at: Date;
+    updated_at: Date;
+};
+
+export type PartialJobPost = {
+    id: string;
+    title: string;
+    type: number;
+    location: number;
+    company_location: string;
+    company_id: string;
+    company_name: string;
+    logo_url: string | null;
+    is_active: boolean;
     created_at: Date;
     updated_at: Date;
 };
@@ -75,9 +93,7 @@ export type ApiResponse<T = any> = Prettify<{
     error?: {
         [key: string]: string;
     };
-    data?: T & {
-        meta?: PaginationMetaData;
-    };
+    data?: T;
 }>;
 
 export type PaginationMetaData = {
@@ -103,6 +119,10 @@ export type ZodValidationError = {
     message: string;
 };
 
+export type ApiValidationError = {
+    [key: string]: string[];
+};
+
 export type JobSearchOptions = {
     page: number;
     limit: number;
@@ -111,4 +131,10 @@ export type JobSearchOptions = {
     type?: JobTypeEnum;
     location?: JobLocationEnum;
     min_salary?: number;
+};
+
+export type FetchState = {
+    fetched: boolean;
+    fetching: boolean;
+    success: boolean;
 };

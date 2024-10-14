@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { type ApiResponse, type JobPost } from "~/utils/types";
+import { type ApiResponse, type PartialJobPost } from "~/utils/types";
 
 definePageMeta({
     layout: "main-navbar",
@@ -20,9 +20,9 @@ definePageMeta({
 
 const query = ref("");
 
-const recentJobs = ref<JobPost[]>([]);
+const recentJobs = ref<PartialJobPost[]>([]);
 const { data: recentJobsResponse } = await useAPI<
-    ApiResponse<{ jobs: JobPost[] }>
+    ApiResponse<{ jobs: PartialJobPost[] }>
 >(queryBuilder("/jobs", { sort: "-created_at", page: 1, limit: 5 }));
 
 if (recentJobsResponse.value.success) {

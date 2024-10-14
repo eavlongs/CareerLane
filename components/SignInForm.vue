@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { type Form, type FormSubmitEvent } from "#ui/types";
+import type { Form, FormSubmitEvent } from "#ui/types";
 import { z } from "zod";
 
 const schema = z.object({

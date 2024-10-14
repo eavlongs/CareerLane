@@ -1,5 +1,5 @@
 import { differenceInCalendarDays } from "date-fns/esm";
-import type { ZodValidationError } from "./types";
+import type { ApiValidationError, ZodValidationError } from "./types";
 
 export function queryBuilder(
     path: string,
@@ -40,13 +40,55 @@ export function formatJobPostDate(date: Date): string {
     }
 }
 
+/**
+ * Check if the error is an ApiValidationError
+ * This is done by checking if error is a truthy value, an object, as well as all the keys and values are strings
+ *
+ * @export
+ * @param {*} error
+ * @return {*}  {error is ApiValidationError}
+ */
+export function isValidationError(error: any): error is ApiValidationError {
+    return (
+        error &&
+        typeof error === "object" &&
+        Object.keys(error).every(
+            (key) =>
+                typeof key === "string" &&
+                Array.isArray(error[key]) &&
+                error[key].every((value) => typeof value === "string")
+        )
+    );
+}
+
+/**
+ * Transform an ApiValidationError to a ZodValidationError
+ *
+ * @export
+ * @param {{ [key: string]: string }} error
+ * @return {*}  {ZodValidationError[]}
+ */
 export function transformValidationError(error: {
-    [key: string]: string;
+    [key: string]: string[];
 }): ZodValidationError[] {
     return Object.keys(error).map((key) => ({
         path: key,
-        message: error[key],
+        message: error[key][0],
     }));
+}
+
+/**
+ * Convert an error object to an array of ZodValidationError, if possible
+ *
+ * @export
+ * @param {*} errors
+ * @return {*}  {ZodValidationError[]}
+ */
+export function getValidationErrors(errors: any): ZodValidationError[] {
+    if (isValidationError(errors)) {
+        return transformValidationError(errors);
+    }
+    return [];
 }
 
 export function toastErrorMessage(

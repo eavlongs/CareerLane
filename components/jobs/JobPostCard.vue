@@ -18,13 +18,13 @@
                         Remote
                     </template>
                     <template v-else>
-                        {{ props.job.company_location }}
                         <span v-if="[JobLocationEnum.Onsite, JobLocationEnum.Hybrid].includes(props.job.location)">
                             {{ JobLocationEnumToStringMap[props.job.location] }}
+                            ({{ props.job.company_location }})
                         </span>
                     </template>
                 </p>
-                <p class="leading-4 md:leading-normal">
+                <!-- <p class="leading-4 md:leading-normal">
                     <span class="border-r pr-1 md:pr-2 border-black"
                       v-if="Object.keys(JobTypeEnumToStringMap).includes(props.job.type.toString())">{{
                         JobTypeEnumToStringMap[props.job.type] }}
@@ -52,7 +52,7 @@
                     </span>
 
                     <span class="px-1 md:px-2">{{ formatJobPostDate(props.job.created_at) }}</span>
-                </p>
+                </p> -->
             </div>
         </div>
 
@@ -62,8 +62,10 @@
 </template>
 
 <script lang="ts" setup>
+import type { PartialJobPost } from '~/utils/types';
+
 type Props = {
-    job: JobPost
+    job: PartialJobPost
 }
 
 const props = defineProps<Props>()

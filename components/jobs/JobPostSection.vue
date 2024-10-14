@@ -10,10 +10,10 @@
 </template>
 
 <script lang="ts" setup>
-import type { JobPost } from '~/utils/types';
+import type { PartialJobPost } from '~/utils/types';
 
 type Props = {
-    jobs: JobPost[],
+    jobs: PartialJobPost[],
     title: string;
     class?: string;
     seeAllJobLink?: string | null;

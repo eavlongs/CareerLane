@@ -1,7 +1,7 @@
 <template>
     <template v-if="!noData || (noData && !handleNoData.hide)">
         <div class="section" :class="props.class">
-            <div class="flex items-center justify-between  mb-4">
+            <div class="flex items-center justify-between mb-4">
                 <p class="text-xl font-semibold">{{ title }}</p>
                 <slot name="buttons" />
             </div>
@@ -33,7 +33,6 @@
 
 <script lang="ts" setup>
 import type { PaginationMetaData } from '~/utils/types';
-
 type Props = {
     title: string;
     class?: string;
