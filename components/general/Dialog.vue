@@ -1,33 +1,38 @@
 <template>
-    <div>
-        <UModal :model-value="modelValue" @update:model-value="value => emits('update:modelValue', value)">
+    <UModal :model-value="modelValue" @update:model-value="value => emits('update:modelValue', value)">
+        <template v-if="withWrapper">
+            <DialogContentWrapper :title="title" :titleOnly="titleOnly" :submitButtonText="submitButtonText"
+              :isFormSubmitButton="isFormSubmitButton" @cancel="closeModal()" @submit="emits('submit')">
+                <slot />
+            </DialogContentWrapper>
+        </template>
 
-            <div class="p-4 flex flex-col">
-                <h3 class="text-xl font-semibold text-center">{{ title }}</h3>
-
-                <div class="min-h-24 my-4" :class="class">
-                    <slot />
-                </div>
-
-                <div class="flex gap-x-2 ml-auto flex-1 items-end">
-                    <UButton size="lg" color="red" @click="closeModal()">Cancel</UButton>
-                    <UButton size="lg" @click="emits('submit'); closeModal()">{{ submitButtonText }}</UButton>
-                </div>
-            </div>
-        </UModal>
-    </div>
+        <template v-else>
+            <slot />
+        </template>
+    </UModal>
 </template>
 
 <script lang="ts" setup>
 type Props = {
     modelValue: boolean;
-    title: string;
+    title?: string;
     submitButtonText?: string;
     class?: string;
+    closeOnSubmit?: boolean;
+    isFormSubmitButton?: boolean;
+    withWrapper?: boolean;
+    titleOnly?: boolean;
 }
+
 const props = withDefaults(defineProps<Props>(), {
     submitButtonText: "Submit",
-    class: ""
+    class: "",
+    closeOnSubmit: true,
+    isFormSubmitButton: false,
+    title: "",
+    withWrapper: true,
+    titleOnly: false
 })
 const emits = defineEmits(['update:modelValue', 'submit'])
 
