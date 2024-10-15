@@ -1,3 +1,8 @@
+declare module "#app" {
+    interface NuxtApp {
+        $api: typeof $fetch;
+    }
+}
 export default defineNuxtPlugin((nuxtApp) => {
     const config = useRuntimeConfig();
     const baseURL = config.public.apiURL;
