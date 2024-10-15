@@ -36,7 +36,6 @@ const state = reactive({
     password: undefined,
 });
 
-const { $api } = useNuxtApp();
 const toast = useToast();
 type Schema = z.output<typeof schema>;
 const form = ref<Form<Schema>>();
@@ -45,7 +44,7 @@ const fetchState = ref<FetchState>(DEFAULT_FETCH_STATE);
 
 async function signIn(e: FormSubmitEvent<Schema>) {
     fetchState.value.fetching = true;
-    const response = await $api<ApiResponse>("/signin", {
+    const response = await $fetch<ApiResponse>("/api/signin", {
         method: "POST",
         body: new FormData(e.target as HTMLFormElement),
     });
