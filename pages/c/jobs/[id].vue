@@ -1,7 +1,7 @@
 <template>
     <PageWrapper>
         <Section title="Job Description" :noData="false">
-            <UForm ref="formRef" :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+            <UForm ref="form" :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
                 <UFormGroup label="Job Title" name="job_title" required>
                     <UInput v-model="state.job_title" :disabled="!job?.is_active" />
                 </UFormGroup>
@@ -60,11 +60,10 @@
                         <div class="flex items-center gap-x-2">
                             <UButton icon="i-heroicons-calendar-days-20-solid"
                               :label="format(state.extended_deadline!, 'd MMM, yyy')" :disabled="!job?.is_active" />
-
                             ({{ daysFromNow }} {{ daysFromNow >= 2 ? "days" : "day" }} from now)
                         </div>
 
-                        <template #panel="{ close }" v-if="!job?.is_active">
+                        <template #panel="{ close }" v-if="job?.is_active">
                             <DatePicker v-model="state.extended_deadline" is-required @close="close"
                               :minDate="state.original_deadline" />
                         </template>
@@ -130,7 +129,7 @@ const salaryTypes = [
     }
 ]
 
-const formRef = ref()
+const form = ref()
 
 const { $api } = useNuxtApp()
 const toast = useToast()
@@ -245,8 +244,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         }
 
         if (response.error) {
-            const error: { [x: string]: string } = response.error
-            formRef.value?.setErrors(transformValidationError(error))
+            const validationErrors = getValidationErrors(response.error);
+            if (validationErrors) {
+                form.value?.setErrors(validationErrors);
+            } else {
+                toastErrorMessage(toast, response.message);
+            }
         }
 
         else {
@@ -265,9 +268,9 @@ if (status.value == "success") {
     state.category = job.value.category_id
     state.location = job.value.location
     state.type = job.value.type
-    state.salary = typeof job.value.salary == 'number' ? job.value.salary : undefined
-    state.salary_start_range = Array.isArray(job.value.salary) ? job.value.salary[0] : undefined
-    state.salary_end_range = Array.isArray(job.value.salary) ? job.value.salary[1] : undefined
+    state.salary = job.value.salary ?? undefined
+    state.salary_start_range = job.value.salary_start_range ?? undefined
+    state.salary_end_range = job.value.salary_end_range ?? undefined
     state.selectedSType = typeof job.value.salary == 'number' ? 'exact' : 'range'
     state.is_salary_negotiable = (job.value.is_salary_negotiable as any) == 0 ? false : true
     state.description = job.value.description
