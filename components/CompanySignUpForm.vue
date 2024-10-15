@@ -50,7 +50,7 @@
 <script setup lang="ts">
 import type { Form, FormSubmitEvent } from "#ui/types";
 import { z } from "zod";
-import { type FetchState, type Province } from "~/utils/types";
+import { type ApiResponse, type FetchState, type Province } from "~/utils/types";
 import { LOGO_MAX_FILE_SIZE, ACCEPTED_IMAGE_TYPES } from "~/utils/constants"
 
 const provinces = ref<Province[]>([]);
@@ -91,7 +91,7 @@ const schema = z
         province: z.string(),
         logo: z
             .any()
-            // .refine(file => file, "Required")
+            .refine(file => file, "Required")
             .refine(
                 (file) => file && file.size && (file.size <= LOGO_MAX_FILE_SIZE),
                 `Max image size is ${LOGO_MAX_FILE_SIZE / (1024 * 1024)}MB.`
@@ -117,10 +117,7 @@ const toast = useToast();
 
 async function signUp(e: FormSubmitEvent<Schema>) {
     formSubmissionState.value.fetching = true;
-    const response = await $api<{
-        success: boolean;
-        message: string;
-    }>("/auth/register-company", {
+    const response = await $api<ApiResponse>("/auth/register-company", {
         method: "POST",
         body: new FormData(e.target as HTMLFormElement),
     });
@@ -136,9 +133,9 @@ async function signUp(e: FormSubmitEvent<Schema>) {
         const validationErrors = getValidationErrors(response.error);
         if (validationErrors) {
             form.value?.setErrors(validationErrors);
-        } else {
-            toastErrorMessage(toast, response.message);
+            return
         }
     }
+    toastErrorMessage(toast, response.message);
 }
 </script>

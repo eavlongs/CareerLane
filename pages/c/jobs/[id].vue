@@ -247,13 +247,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             const validationErrors = getValidationErrors(response.error);
             if (validationErrors) {
                 form.value?.setErrors(validationErrors);
-            } else {
-                toastErrorMessage(toast, response.message);
+                return
             }
-        }
-
-        else {
-            throw new Error(response.message)
         }
     } catch (e: any) {
         toastErrorMessage(toast, e.message)

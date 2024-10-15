@@ -13,13 +13,7 @@ const props = withDefaults(defineProps<Props>(), {
     class: "",
 });
 
-async function logOut() {
-    await $fetch("/api/logout", {
-        method: "POST",
-    });
 
-    window.location.href = "/";
-}
 </script>
 
 <style></style>

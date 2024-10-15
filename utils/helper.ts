@@ -141,3 +141,11 @@ export function prefixStorageUrl(
     if (!url) return null;
     return `${runtimeConfig.public.storageUrlPrefix}${url}`;
 }
+
+export async function logOut() {
+    await $fetch("/api/logout", {
+        method: "POST",
+    });
+
+    window.location.href = "/";
+}

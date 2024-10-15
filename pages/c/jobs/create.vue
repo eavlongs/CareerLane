@@ -1,7 +1,7 @@
 <template>
     <PageWrapper>
         <Section title="Create New Job" :noData="false">
-            <UForm ref="formRef" :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+            <UForm ref="form" :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
                 <UFormGroup label="Job Title" name="job_title" required>
                     <UInput v-model="state.job_title" />
                 </UFormGroup>
@@ -113,7 +113,7 @@ const jobCategories = ref<Category[]>([])
 
 await getCategories()
 
-const formRef = ref()
+const form = ref()
 
 const { $api } = useNuxtApp()
 const toast = useToast()
@@ -224,8 +224,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         }
 
         if (response.error) {
-            const error: { [x: string]: string } = response.error
-            formRef.value?.setErrors(transformValidationError(error))
+            const validationErrors = getValidationErrors(response.error);
+            if (validationErrors) {
+                form.value?.setErrors(validationErrors);
+                return
+            }
         }
 
         else {

@@ -5,8 +5,7 @@
             <SimilarJobSection :jobs="[]" />
         </div>
         <div class="section col-span-3">
-            <CompanySideProfile :logo_url="job.data?.job.logo_url!" :company_name="job.data?.job.company_name!"
-              :company_location="job.data?.job.company_location!" />
+            <JobApplicationSection :job="job.data?.job!" />
         </div>
     </div>
 </template>
@@ -17,19 +16,26 @@ definePageMeta({
     layout: "main-navbar"
 })
 
-
-
+const headers = useRequestHeaders(['cookie'])
 const route = useRoute();
 const id = route.params.id as string
 const toast = useToast();
-const { data: job } = await useAPI<ApiResponse<{ job: JobPost }>>(`/jobs/${id}`)
+const { data: job } = await useAPI<ApiResponse<{
+    job: JobPost & {
+        applied: boolean,
+    }
+}>>(`/jobs/${id}`, {
+    headers
+})
 
 if (!job.value.success) {
     toastErrorMessage(toast, job.value.message);
+} else {
+    job.value.data!.job.created_at = new Date(job.value.data!.job.created_at);
+    job.value.data!.job.extended_deadline = new Date(job.value.data!.job.extended_deadline!);
 }
 
-job.value.data!.job.created_at = new Date(job.value.data!.job.created_at);
-job.value.data!.job.extended_deadline = new Date(job.value.data!.job.extended_deadline!);
+
 </script>
 
 <style scoped>

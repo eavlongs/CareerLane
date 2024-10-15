@@ -83,7 +83,7 @@
         </div>
     </div>
 
-    <SignInToContinueDialog />
+    <GuardDialog />
 </template>
 
 <script lang="ts" setup>

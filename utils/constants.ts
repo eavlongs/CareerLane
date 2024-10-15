@@ -14,3 +14,15 @@ export const DEFAULT_FETCH_STATE: FetchState = {
     fetching: false,
     success: false,
 };
+
+export const ACCEPTED_CV_TYPES = [
+    "application/msword", // .doc
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+    "application/pdf", // .pdf
+];
+
+export enum GuardType {
+    NONE,
+    NOT_LOGGED_IN,
+    NOT_NORMAL_USER,
+}

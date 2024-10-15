@@ -23,9 +23,7 @@ export default defineEventHandler(async (event) => {
         };
     }
 
-    const deleteSession = await lucia.invalidateSession(
-        event.context.session.id
-    );
+    await lucia.invalidateSession(event.context.session.id);
     appendHeader(
         event,
         "Set-Cookie",

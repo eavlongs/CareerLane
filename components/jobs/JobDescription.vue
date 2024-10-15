@@ -38,7 +38,7 @@
 
         <!-- Job Information -->
         <div class="my-6">
-            <p class="text-base md:text-lg">Job Information</p>
+            <p class="text-base md:text-lg font-semibold">Job Information</p>
             <ul class="list-inside list-disc leading-loose">
                 <li v-for="ji of jobInformation" :key="ji.label">
                     <span class="font-semibold">{{ ji.label }}:</span> {{ ji.value }}
@@ -47,7 +47,7 @@
         </div>
 
         <div>
-            <p class="text-base md:text-lg">Job Description</p>
+            <p class="text-base md:text-lg font-semibold">Job Description</p>
             <p class="mt-2">{{ job.description }}</p>
         </div>
     </div>

@@ -59,9 +59,9 @@ async function signIn(e: FormSubmitEvent<Schema>) {
         const validationErrors = getValidationErrors(response.error);
         if (validationErrors) {
             form.value?.setErrors(validationErrors);
-        } else {
-            toastErrorMessage(toast, response.message);
+            return;
         }
     }
+    toastErrorMessage(toast, response.message);
 }
 </script>
