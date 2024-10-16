@@ -29,12 +29,13 @@ const error = ref<string | null>(null);
 // Function to verify the token
 async function verifyToken(token: string) {
     try {
-        const response = await $api<{
-            success: boolean;
-            message: string;
-        }>(`/verify-token?${token}`, {
-            method: "POST",
-        });
+        const response = await $fetch<ApiResponse>(
+            `http://localhost:8000/api/verify-token?${token}`,
+            {
+                method: "POST",
+                credentials: "include",
+            }
+        );
 
         if (response.success) {
             setTimeout(() => router.push("/c/dashboard"), 2000); // Redirect to dashboard after a short delay

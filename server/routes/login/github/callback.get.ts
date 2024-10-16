@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
         });
         const githubUser: GitHubUser = await githubUserResponse.json();
         const response = await fetch(
-            `${runtimeConfig.public.apiURL}/login/provider`,
+            `${runtimeConfig.public.apiURL}/auth/login/provider`,
             {
                 method: "POST",
                 headers: {

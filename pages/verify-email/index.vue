@@ -1,8 +1,6 @@
 <template>
     <div class="flex flex-col items-center justify-center h-screen">
-        <h1 class="text-2xl font-semibold mb-6">
-            Your Email need to be verified
-        </h1>
+        <h1 class="text-2xl font-semibold mb-6">PLease verify your email</h1>
 
         <!-- Display the success or error message -->
         <div v-if="message" :class="messageClass" class="mb-4">
@@ -22,10 +20,12 @@
 </template>
 
 <script setup lang="ts">
-import { navigateTo, useFetch } from "nuxt/app";
+import { navigateTo } from "nuxt/app";
 import { computed, ref } from "vue";
 
-// States to manage success message, loading state, and error
+definePageMeta({
+    layout: "company-layout",
+});
 const success = ref(false);
 const message = ref("");
 const loading = ref(false);
@@ -43,7 +43,7 @@ async function sendVerifyEmail() {
         // const response = await $api("test-email", {
         //     method: "POST",
         // });
-        const response = await useFetch<ApiResponse>(
+        const response = await $fetch<ApiResponse>(
             "http://localhost:8000/api/send-verification-email",
             {
                 method: "POST",

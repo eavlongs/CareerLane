@@ -37,7 +37,7 @@ export default defineEventHandler(async (event) => {
         const runtimeConfig = useRuntimeConfig();
         const googleUser: GoogleUser = await googleUserResponse.json();
         const response = await fetch(
-            `${runtimeConfig.public.apiURL}/login/provider`,
+            `${runtimeConfig.public.apiURL}/auth/login/provider`,
             {
                 method: "POST",
                 headers: {

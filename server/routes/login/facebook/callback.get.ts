@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
         const runtimeConfig = useRuntimeConfig();
         console.log(1);
         const response = await fetch(
-            `${runtimeConfig.public.apiURL}/login/provider`,
+            `${runtimeConfig.public.apiURL}/auth/login/provider`,
             {
                 method: "POST",
                 headers: {
