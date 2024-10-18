@@ -149,3 +149,14 @@ export async function logOut() {
 
     window.location.href = "/";
 }
+
+export function getFileExtensionByFileType(type: string) {
+    switch (type) {
+        case "application/msword":
+            return "doc";
+        case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+            return "docx";
+        case "application/pdf":
+            return "pdf";
+    }
+}

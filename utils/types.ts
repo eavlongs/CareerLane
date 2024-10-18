@@ -1,25 +1,16 @@
-export type JobPost = {
-    id: string;
+export type Timestamp = Prettify<{
+    created_at: Date;
+    updated_at: Date;
+}>;
+
+export type JobPost = PartialJobPost & {
     applicants: number;
-    title: string;
     description: string;
-    type: number;
-    location: number;
-    company_location: string;
-    company_id: string;
-    company_name: string;
-    logo_url: string | null;
     salary: number | null;
     salary_start_range: number | null;
     salary_end_range: number | null;
     is_salary_negotiable: boolean;
-    is_active: boolean;
     category_id: string;
-    category_name: string;
-    original_deadline: Date;
-    extended_deadline: Date | null;
-    created_at: Date;
-    updated_at: Date;
 };
 
 export type PartialJobPost = {
@@ -32,9 +23,9 @@ export type PartialJobPost = {
     company_name: string;
     logo_url: string | null;
     is_active: boolean;
-    created_at: Date;
-    updated_at: Date;
-};
+    original_deadline: Date;
+    extended_deadline: Date | null;
+} & Timestamp;
 
 export type Company = {
     id: string;
@@ -140,4 +131,33 @@ export type CompanyProfile = {
     links: string;
     email: string;
     is_verify: boolean;
+};
+
+export type FetchState = {
+    fetched: boolean;
+    fetching: boolean;
+    success: boolean;
+};
+
+export type Application = {
+    id: string;
+    job_post_id: string;
+    user_id: string;
+    cv_url: string;
+    is_active: boolean;
+} & Timestamp;
+
+export type User = {
+    id: string;
+    account_id: string;
+    first_name: string;
+    last_name: string;
+    about_me: string;
+    avatar_url: string | null;
+    job_title: string | null;
+    job_level: string | null;
+} & Timestamp;
+
+export type UserApplication = Application & {
+    user: Omit<User, "account_id" | "about">;
 };
