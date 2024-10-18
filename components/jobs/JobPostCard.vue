@@ -14,15 +14,25 @@
                     {{ props.job.company_name }}
                 </ULink>
                 <p class="line-clamp-1">
-                    <template v-if="props.job.location == JobLocationEnum.Remote">
-                        Remote
-                    </template>
-                    <template v-else>
-                        <span v-if="[JobLocationEnum.Onsite, JobLocationEnum.Hybrid].includes(props.job.location)">
-                            {{ JobLocationEnumToStringMap[props.job.location] }}
-                            ({{ props.job.company_location }})
-                        </span>
-                    </template>
+                    <span class="border-r pr-1 md:pr-2 border-black">
+                        <template v-if="props.job.location == JobLocationEnum.Remote">
+                            Remote
+                        </template>
+                        <template v-else>
+                            <span v-if="[JobLocationEnum.Onsite, JobLocationEnum.Hybrid].includes(props.job.location)">
+                                {{ JobLocationEnumToStringMap[props.job.location] }}
+                                ({{ props.job.company_location }})
+                            </span>
+                        </template>
+                    </span>
+
+                    <span class="border-r px-1 md:px-2 border-black"
+                      v-if="Object.keys(JobTypeEnumToStringMap).includes(props.job.type.toString())">{{
+                        JobTypeEnumToStringMap[props.job.type] }}
+                    </span>
+
+                    <span class="pl-1 md:pl-2">{{ formatJobPostDate(props.job.created_at) }}</span>
+
                 </p>
                 <!-- <p class="leading-4 md:leading-normal">
                     <span class="border-r pr-1 md:pr-2 border-black"

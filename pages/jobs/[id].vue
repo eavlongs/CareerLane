@@ -35,7 +35,6 @@ if (!job.value.success) {
     job.value.data!.job.extended_deadline = new Date(job.value.data!.job.extended_deadline!);
 }
 
-
 </script>
 
 <style scoped>

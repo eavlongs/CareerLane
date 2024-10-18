@@ -11,17 +11,13 @@
                     {{ props.job.title }}
                 </p>
                 <div class="flex flex-col gap-y-1 text-xs md:text-sm mt-1 leading-none md:leading-normal">
-                    <p class="inline-block line-clamp-1">
-                        {{ props.job.company_name }}
-                    </p>
                     <p class="line-clamp-1">
                         <template v-if="props.job.location == JobLocationEnum.Remote">
                             Remote
                         </template>
                         <template v-else>
                             {{ props.job.company_location }}
-                            <span class="ml-1"
-                              v-if="[JobLocationEnum.Onsite, JobLocationEnum.Hybrid].includes(props.job.location)">
+                            <span v-if="[JobLocationEnum.Onsite, JobLocationEnum.Hybrid].includes(props.job.location)">
                                 {{ JobLocationEnumToStringMap[props.job.location] }}
                             </span>
                         </template>
@@ -31,35 +27,26 @@
                           v-if="Object.keys(JobTypeEnumToStringMap).includes(props.job.type.toString())">{{
                             JobTypeEnumToStringMap[props.job.type] }}
                         </span>
-                        <span class="border-r px-1 md:px-2 border-black">
-                            <template v-if="props.job.salary">
-                                <template v-if="typeof props.job.salary == 'number'">
-                                    {{ formatToCurrency(props.job.salary) }}
-                                </template>
-                                <template v-else>
-                                    {{ formatToCurrency(props.job.salary[0]) }} to {{
-                                        formatToCurrency(props.job.salary[1])
-                                    }}
-                                </template>
-
-                                <template v-if="props.job.is_salary_negotiable">
-                                    (Negotiable)
-                                </template>
-                            </template>
-                            <template v-else>
-                                Negotiable
-                            </template>
+                        <span class="pl-1 md:pl-2 border-r pr-1 md:pr-2 border-black">
+                            {{ formatJobPostDate(props.job.created_at) }}
+                        </span>
+                        <span class="pl-1 md:pl-2">
+                            {{ props.job.applicants }} application{{ props.job.applicants > 1 ? 's' : '' }}
                         </span>
 
-                        <span class="px-1 md:px-2">{{ formatJobPostDate(props.job.created_at) }}</span>
                     </p>
                 </div>
             </div>
-            <template v-if="type == 'active'">
-                <UTooltip text="Edit Job" :popper="{ placement: 'top' }">
-                    <UButton icon="ic:outline-mode-edit" class="mr-2" :to="`/c/jobs/${props.job.id}`" />
+            <div class="flex gap-x-2 mr-2">
+                <UTooltip text="View job applications" :popper="{ placement: 'top' }">
+                    <UButton icon="ic:twotone-people-alt" :to="`/c/jobs/${props.job.id}/applications`" />
                 </UTooltip>
-            </template>
+                <template v-if="type == 'active'">
+                    <UTooltip text="Edit Job">
+                        <UButton icon="ic:outline-mode-edit" :to="`/c/jobs/${props.job.id}`" />
+                    </UTooltip>
+                </template>
+            </div>
         </div>
     </NuxtLink>
 </template>
