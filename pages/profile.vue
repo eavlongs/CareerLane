@@ -7,107 +7,60 @@
 
             <!-- Profile Picture -->
             <div class="flex flex-col items-center mb-8">
-                <img
-                    :src="profilePictureUrl || defaultAvatarUrl"
-                    alt=""
-                    class="w-24 h-24 rounded-full object-cover mb-4"
-                />
-                <button
-                    class="text-sm text-blue-500 hover:underline"
-                    @click="openFileDialog"
-                >
+                <img :src="profilePictureUrl || defaultAvatarUrl" alt=""
+                  class="w-24 h-24 rounded-full object-cover mb-4" />
+                <button class="text-sm text-blue-500 hover:underline" @click="openFileDialog">
                     Change Profile Picture
                 </button>
-                <input
-                    type="file"
-                    ref="fileInput"
-                    @change="onFileChange"
-                    class="hidden"
-                    name="profile"
-                />
+                <input type="file" ref="fileInput" @change="onFileChange" class="hidden" name="profile" />
             </div>
 
             <!-- Profile Information Display -->
-            <div class="grid gap-4">
+            <UForm :state="state" :schema="schema" class="grid gap-4">
                 <!-- First Name -->
                 <UFormGroup label="First Name">
-                    <UInput
-                        v-model="state.first_name"
-                        :readonly="!editing"
-                        placeholder="First Name"
-                    />
+                    <UInput v-model="state.first_name" :readonly="!editing" placeholder="First Name" />
                 </UFormGroup>
 
                 <!-- Last Name -->
                 <UFormGroup label="Last Name">
-                    <UInput
-                        v-model="state.last_name"
-                        :readonly="!editing"
-                        placeholder="Last Name"
-                    />
+                    <UInput v-model="state.last_name" :readonly="!editing" placeholder="Last Name" />
                 </UFormGroup>
 
                 <!-- Email (always read-only) -->
                 <UFormGroup label="Email">
-                    <UInput
-                        type="email"
-                        v-model="state.email"
-                        readonly
-                        placeholder="Email"
-                    />
+                    <UInput type="email" v-model="state.email" readonly placeholder="Email" />
                 </UFormGroup>
 
                 <UFormGroup label="Job Title">
-                    <UInput
-                        v-model="state.job_title"
-                        :readonly="!editing"
-                        placeholder="Job Title"
-                    />
+                    <UInput v-model="state.job_title" :readonly="!editing" placeholder="Job Title" />
                 </UFormGroup>
 
                 <UFormGroup label="Job Level">
-                    <UInput
-                        v-model="state.job_level"
-                        :readonly="!editing"
-                        placeholder="Job Level"
-                    />
+                    <UInput v-model="state.job_level" :readonly="!editing" placeholder="Job Level" />
                 </UFormGroup>
 
-                <UButton
-                    v-if="!editing"
-                    class="w-32 mt-4 py-1 text-xs flex justify-center items-center h-8"
-                    color="primary"
-                    @click="toggleEdit"
-                >
+                <UButton v-if="!editing" class="w-32 mt-4 py-1 text-xs flex justify-center items-center h-8"
+                  color="primary" @click="toggleEdit">
                     Edit Profile
                 </UButton>
 
                 <div v-else class="flex justify-between mt-4">
-                    <UButton
-                        class="w-32 py-1 text-xs flex justify-center items-center h-8"
-                        color="primary"
-                        @click="updateProfile"
-                    >
+                    <UButton class="w-32 py-1 text-xs flex justify-center items-center h-8" color="primary"
+                      @click="updateProfile">
                         Save
                     </UButton>
-                    <UButton
-                        class="w-28 py-1 text-xs flex justify-center items-center h-8"
-                        variant="outline"
-                        @click="toggleEdit"
-                    >
+                    <UButton class="w-28 py-1 text-xs flex justify-center items-center h-8" variant="outline"
+                      @click="toggleEdit">
                         Cancel
                     </UButton>
                 </div>
 
-                <UButton
-                    type="button"
-                    class="w-32 mt-4 py-1 text-xs flex justify-center items-center h-8"
-                    variant="outline"
-                    @click="changePassword"
-                >
+                <UButton type="button" class="w-32 mt-4 py-1 text-xs flex justify-center items-center h-8"
+                  variant="outline" @click="changePassword">
                     Change Password
                 </UButton>
-            </div>
+            </UForm>
         </UCard>
     </div>
 </template>
@@ -115,9 +68,16 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
+import { z } from "zod"
 
 // State
-const state = reactive({
+const state = reactive<{
+    first_name: string;
+    last_name: string;
+    email: string;
+    job_title: string;
+    job_level: string;
+}>({
     first_name: "",
     last_name: "",
     email: "",
