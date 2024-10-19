@@ -48,7 +48,7 @@ const state = reactive({
 const runtimeConfig = useRuntimeConfig();
 async function changePassword() {
     const response = await useFetch<ApiResponse>(
-        "http://localhost:8000/api/change-password",
+        "http://localhost:8000/api/auth/change-password",
         {
             method: "POST",
             body: JSON.stringify({

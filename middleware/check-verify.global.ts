@@ -5,7 +5,7 @@ import type { ApiResponse, CompanyProfile } from "~/utils/types";
 export default defineNuxtRouteMiddleware(async (to, from) => {
     try {
         const { data } = await useAPI<ApiResponse<CompanyProfile>>(
-            "/company-profile"
+            "/company/information"
         );
         console.log(data.value);
         if (data.value.data?.is_verify == false && to.path.startsWith("/c/")) {

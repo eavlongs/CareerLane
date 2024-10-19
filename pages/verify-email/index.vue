@@ -44,7 +44,7 @@ async function sendVerifyEmail() {
         //     method: "POST",
         // });
         const response = await $fetch<ApiResponse>(
-            "http://localhost:8000/api/send-verification-email",
+            "http://localhost:8000/api/auth/send-verification-email",
             {
                 method: "POST",
                 credentials: "include",

@@ -2,7 +2,10 @@ import { GuardType } from "~/utils/constants";
 
 export const useGuard = () => {
     const user = useUser();
-    const guardDialogType = useState<number>("guardDialogType", () => 0);
+    const guardDialogType = useState<number>(
+        "guardDialogType",
+        () => GuardType.NONE
+    );
 
     const guardAction = (action: () => void) => {
         if (!user.value) {

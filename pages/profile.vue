@@ -142,7 +142,7 @@ function toggleEdit() {
 async function updateProfile() {
     try {
         const response = await $fetch<ApiResponse>(
-            "http://localhost:8000/api/upload-profile",
+            "http://localhost:8000/api/user/edit-profile",
             {
                 method: "POST",
                 body: JSON.stringify({
@@ -194,7 +194,7 @@ async function uploadProfilePicture() {
 
     try {
         const response = await $fetch<ApiResponse>(
-            "http://localhost:8000/api/upload-profile-picture",
+            "http://localhost:8000/api/user/upload-profile-picture",
             {
                 method: "POST",
                 body: formData,
@@ -217,7 +217,7 @@ async function uploadProfilePicture() {
 async function profileInformation() {
     try {
         const response = await $fetch<ApiResponse>(
-            "http://localhost:8000/api/user-profile-information",
+            "http://localhost:8000/api/auth/profile-information",
             {
                 method: "GET",
                 credentials: "include",

@@ -33,6 +33,8 @@ export type Company = {
     logo_url: string | null;
     location: string;
     description: string;
+    posts: string;
+    members: string;
 };
 
 export enum ProviderTypeEnum {
