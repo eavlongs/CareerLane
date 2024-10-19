@@ -81,7 +81,7 @@ async function verifyToken(token: string) {
         const response = await $api<{
             success: boolean;
             message: string;
-        }>(`/verify-forgot-password-token`, {
+        }>(`/auth/verify-forgot-password-token`, {
             method: "POST",
             body: JSON.stringify({ token }),
         });
@@ -104,7 +104,7 @@ async function forgotPassword() {
         const response = await $api<{
             success: boolean;
             message: string;
-        }>(`${runtimeConfig.public.apiURL}/forgot-password`, {
+        }>(`${runtimeConfig.public.apiURL}/auth/forgot-password`, {
             method: "POST",
             body: JSON.stringify({
                 new_password: state.new_password,

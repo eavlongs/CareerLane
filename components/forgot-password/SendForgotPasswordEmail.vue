@@ -35,7 +35,7 @@ async function sendForgotPasswordEmail() {
     const response = await $fetch<{
         success: boolean;
         message: string;
-    }>(`${runtimeConfig.public.apiURL}/send-forgot-password-email`, {
+    }>(`${runtimeConfig.public.apiURL}/auth/send-forgot-password-email`, {
         method: "POST",
         body: JSON.stringify({
             email: state.email,

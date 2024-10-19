@@ -30,7 +30,7 @@ const error = ref<string | null>(null);
 async function verifyToken(token: string) {
     try {
         const response = await $fetch<ApiResponse>(
-            `http://localhost:8000/api/verify-token?${token}`,
+            `http://localhost:8000/api/auth/verify-token?${token}`,
             {
                 method: "POST",
                 credentials: "include",
