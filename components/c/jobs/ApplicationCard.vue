@@ -55,6 +55,11 @@ const { $api } = useNuxtApp();
 
 async function downloadCV() {
     const responseBlob = await $api<Blob>(`/applications/${props.userApplication.id}/download`)
+
+    if (ACCEPTED_CV_TYPES.includes(responseBlob.type) === false) {
+        emits("error", "Couldn't download CV. Please try again later.")
+        return
+    }
     const url = window.URL.createObjectURL(responseBlob);
     const a = document.createElement('a');
     a.href = url;

@@ -11,6 +11,7 @@ export default defineEventHandler(async (event) => {
     }>(`${runtimeConfig.public.apiURL}/auth/login`, {
         method: "POST",
         body: formData,
+        ignoreResponseError: true,
     });
 
     if (!response.success) {

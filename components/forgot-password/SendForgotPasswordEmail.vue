@@ -3,12 +3,7 @@
         <p class="font-bold text-2xl text-center mb-8">Forgot Password</p>
 
         <!-- Form for resetting the password -->
-        <UForm
-            @submit.prevent="sendForgotPasswordEmail"
-            class="grid gap-4"
-            method="post"
-            :state="state"
-        >
+        <UForm @submit.prevent="sendForgotPasswordEmail" class="grid gap-4" method="post" :state="state">
             <!-- Email input field -->
             <UFormGroup label="Email" name="email">
                 <UInput v-model="state.email" placeholder="example@gmail.com" />
@@ -31,7 +26,6 @@ const state = reactive({
 
 const runtimeConfig = useRuntimeConfig();
 async function sendForgotPasswordEmail() {
-    console.log(1);
     const response = await $fetch<{
         success: boolean;
         message: string;

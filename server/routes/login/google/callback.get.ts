@@ -1,6 +1,7 @@
 import { OAuth2RequestError } from "arctic";
 import { google } from "~/server/utils/arctic";
 import { lucia } from "~/server/utils/auth";
+import { linkAccount } from "~/utils/helper";
 import { ProviderTypeEnum } from "~/utils/types";
 
 export default defineEventHandler(async (event) => {
@@ -36,6 +37,19 @@ export default defineEventHandler(async (event) => {
         );
         const runtimeConfig = useRuntimeConfig();
         const googleUser: GoogleUser = await googleUserResponse.json();
+
+        deleteCookie(event, "codeVerifier");
+
+        const sessionId = getCookie(event, lucia.sessionCookieName) ?? null;
+        const redirectUrl = await linkAccount(sessionId, {
+            provider: ProviderTypeEnum.GOOGLE,
+            provider_id: googleUser.sub,
+        });
+
+        if (redirectUrl.length > 0) {
+            return sendRedirect(event, redirectUrl);
+        }
+
         const response = await fetch(
             `${runtimeConfig.public.apiURL}/auth/login/provider`,
             {

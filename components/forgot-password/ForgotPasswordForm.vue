@@ -19,29 +19,13 @@
                 </p>
 
                 <!-- Reset Password Form -->
-                <UForm
-                    @submit.prevent="forgotPassword"
-                    class="grid gap-4"
-                    method="post"
-                    :state="state"
-                >
+                <UForm @submit.prevent="forgotPassword" class="grid gap-4" method="post" :state="state">
                     <UFormGroup label="New Password" name="new_password">
-                        <UInput
-                            type="password"
-                            v-model="state.new_password"
-                            placeholder="*********"
-                        />
+                        <UInput type="password" v-model="state.new_password" placeholder="*********" />
                     </UFormGroup>
 
-                    <UFormGroup
-                        label="Confirm New Password"
-                        name="new_confirm_password"
-                    >
-                        <UInput
-                            type="password"
-                            v-model="state.new_confirm_password"
-                            placeholder="*********"
-                        />
+                    <UFormGroup label="Confirm New Password" name="new_confirm_password">
+                        <UInput type="password" v-model="state.new_confirm_password" placeholder="*********" />
                     </UFormGroup>
 
                     <!-- Submit button -->
@@ -100,7 +84,6 @@ async function verifyToken(token: string) {
 // Function to handle password reset
 async function forgotPassword() {
     try {
-        console.log(1);
         const response = await $api<{
             success: boolean;
             message: string;
@@ -112,7 +95,6 @@ async function forgotPassword() {
                 token: route.params.token, // Send the verified token with the request
             }),
         });
-        console.log(2);
 
         if (response.success) {
             alert("Your password has been reset successfully.");

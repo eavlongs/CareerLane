@@ -23,6 +23,7 @@ export const lucia = new Lucia(customAdapter, {
                           attributes.last_name ? " " + attributes.last_name : ""
                       }`
                     : attributes.company_name,
+            providers_linked: attributes.providers_linked,
         };
     },
 });
@@ -42,5 +43,6 @@ interface DatabaseUserAttributes {
     first_name?: string;
     last_name?: string;
     company_name?: string;
+    providers_linked?: number[];
     provider_id: string;
 }

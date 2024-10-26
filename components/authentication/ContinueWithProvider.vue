@@ -1,12 +1,7 @@
 <template>
     <a :href="href">
         <UButton color="white" size="xl" class="justify-center w-[100%]">
-            <img
-                :src="providerLogo"
-                :alt="`${providerName} Logo`"
-                class="w-7 aspect-square"
-            />
-
+            <img :src="providerLogo" :alt="`${providerName} Logo`" class="w-7 aspect-square" />
             Continue With {{ props.providerName }}
         </UButton>
     </a>

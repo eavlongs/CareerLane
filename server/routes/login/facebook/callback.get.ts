@@ -1,19 +1,18 @@
 import { OAuth2RequestError } from "arctic";
 import { facebook } from "~/server/utils/arctic";
+import { linkAccount } from "~/utils/helper";
 import { ProviderTypeEnum } from "~/utils/types";
 
 export default defineEventHandler(async (event) => {
     const query = getQuery(event);
     const code = query.code?.toString() ?? null;
     const state = query.state?.toString() ?? null;
-    console.log("Heere");
     const storedState = getCookie(event, "facebook_oauth_state") ?? null;
     if (!code || !state || !storedState || state !== storedState) {
         throw createError({
             status: 400,
         });
     }
-    console.log(2);
     try {
         const tokens = await facebook.validateAuthorizationCode(code);
         const url = new URL("https://graph.facebook.com/me");
@@ -24,9 +23,20 @@ export default defineEventHandler(async (event) => {
         );
         const facebookResponse = await fetch(url);
         const faceBookUser: FacebookUser = await facebookResponse.json();
-        console.log(faceBookUser);
+
+        deleteCookie(event, "facebook_oauth_state");
+
+        const sessionId = getCookie(event, lucia.sessionCookieName) ?? null;
+        const redirectUrl = await linkAccount(sessionId, {
+            provider: ProviderTypeEnum.FACEBOOK,
+            provider_id: faceBookUser.id,
+        });
+
+        if (redirectUrl.length > 0) {
+            return sendRedirect(event, redirectUrl);
+        }
+
         const runtimeConfig = useRuntimeConfig();
-        console.log(1);
         const response = await fetch(
             `${runtimeConfig.public.apiURL}/auth/login/provider`,
             {
@@ -43,7 +53,6 @@ export default defineEventHandler(async (event) => {
             }
         );
         const json = await response.json();
-        console.log(json);
         const accountId = json.data.account_id;
 
         const session = await lucia.createSession(accountId, {});

@@ -29,11 +29,13 @@ import { z } from "zod";
 
 const schema = z.object({
     email: z.string().email("Invalid email"),
-    password: z.string().min(8, "Must be at least 8 characters"),
+    password: z.string(),
 });
 const state = reactive({
-    email: undefined,
-    password: undefined,
+    // email: "undefined",
+    // password: undefined,
+    email: "esok@paragoniu.edu.kh",
+    password: "Helloworld",
 });
 
 const toast = useToast();
@@ -47,12 +49,14 @@ async function signIn(e: FormSubmitEvent<Schema>) {
     const response = await $fetch<ApiResponse>("/api/signin", {
         method: "POST",
         body: new FormData(e.target as HTMLFormElement),
+        ignoreResponseError: true,
     });
     fetchState.value.fetching = false;
     fetchState.value.fetched = true;
 
     if (response.success) {
         navigateTo("/");
+        toast.clear();
         return
     }
     if (response.error) {

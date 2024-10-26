@@ -20,10 +20,11 @@ definePageMeta({
 
 const query = ref("");
 
+const headers = useRequestHeaders(['cookie'])
 const recentJobs = ref<PartialJobPost[]>([]);
 const { data: recentJobsResponse } = await useAPI<
     ApiResponse<{ jobs: PartialJobPost[] }>
->(queryBuilder("/jobs", { sort: "-created_at", page: 1, limit: 5 }));
+>(queryBuilder("/jobs", { sort: "-created_at", page: 1, limit: 5 }), { headers });
 
 if (recentJobsResponse.value.success) {
     recentJobs.value = recentJobsResponse.value.data!.jobs;

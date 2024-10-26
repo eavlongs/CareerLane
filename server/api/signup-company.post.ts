@@ -14,7 +14,6 @@ export default defineEventHandler(async (event) => {
         ignoreResponseError: true,
     });
 
-    console.log(response);
     if (!response.success) {
         return {
             success: false,

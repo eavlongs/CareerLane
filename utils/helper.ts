@@ -1,5 +1,10 @@
 import { differenceInCalendarDays } from "date-fns/esm";
-import type { ApiValidationError, ZodValidationError } from "./types";
+import {
+    ProviderTypeEnum,
+    UserTypeEnum,
+    type ApiValidationError,
+    type ZodValidationError,
+} from "./types";
 
 export function queryBuilder(
     path: string,
@@ -159,4 +164,45 @@ export function getFileExtensionByFileType(type: string) {
         case "application/pdf":
             return "pdf";
     }
+}
+
+export async function linkAccount(
+    sessionId: string | null,
+    data: {
+        provider: ProviderTypeEnum;
+        provider_id: string;
+        provider_account_profile?: string;
+    }
+): Promise<string> {
+    const runtimeConfig = useRuntimeConfig();
+    // if user is logged in, then this is for linking the account
+    if (sessionId) {
+        const { session, user } = await lucia.validateSession(sessionId);
+        if (session && user.role === UserTypeEnum.Company) {
+            const response = await fetch(
+                `${runtimeConfig.public.apiURL}/auth/link-account`,
+                {
+                    method: "POST",
+                    headers: {
+                        Cookie: "auth_session=" + sessionId,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                }
+            );
+
+            const json: ApiResponse = await response.json();
+            console.log({ error: json.error });
+            if (!json || !json.success) {
+                return `/c/account-management?link_type=0&link_message=${encodeURIComponent(
+                    json.message ?? "Failed to link account"
+                )}`;
+            }
+            return `/c/account-management?link_type=1&link_message=${encodeURIComponent(
+                json.message
+            )}`;
+        }
+    }
+
+    return "";
 }

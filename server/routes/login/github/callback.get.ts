@@ -1,4 +1,5 @@
 import { OAuth2RequestError } from "arctic";
+import { linkAccount } from "~/utils/helper";
 import { ProviderTypeEnum } from "~/utils/types";
 export default defineEventHandler(async (event) => {
     const query = getQuery(event);
@@ -20,6 +21,20 @@ export default defineEventHandler(async (event) => {
             },
         });
         const githubUser: GitHubUser = await githubUserResponse.json();
+
+        deleteCookie(event, "github_oauth_state");
+
+        const sessionId = getCookie(event, lucia.sessionCookieName) ?? null;
+        const redirectUrl = await linkAccount(sessionId, {
+            provider: ProviderTypeEnum.GITHUB,
+            provider_id: githubUser.id.toString(),
+            provider_account_profile: githubUser.html_url,
+        });
+
+        if (redirectUrl.length > 0) {
+            return sendRedirect(event, redirectUrl);
+        }
+
         const response = await fetch(
             `${runtimeConfig.public.apiURL}/auth/login/provider`,
             {
@@ -56,6 +71,7 @@ export default defineEventHandler(async (event) => {
         deleteCookie(event, "github_oauth_state");
         return sendRedirect(event, "/");
     } catch (e) {
+        console.log(e);
         // the specific error message depends on the provider
         if (e instanceof OAuth2RequestError) {
             // invalid code

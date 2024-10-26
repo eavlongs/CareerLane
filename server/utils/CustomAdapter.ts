@@ -50,7 +50,6 @@ export default class CustomAdapter {
         }
     }
     public async setSession(session: DatabaseSession): Promise<void> {
-        console.log({ session });
         const response = await $fetch<ApiResponse>(`${apiUrl}/sessions`, {
             method: "POST",
             headers: {
@@ -86,7 +85,6 @@ export default class CustomAdapter {
     }
 
     public async deleteSession(sessionId: string): Promise<void> {
-        console.log({ sessionId });
         const response = await $fetch<ApiResponse>(
             `${apiUrl}/sessions/${sessionId}`,
             {

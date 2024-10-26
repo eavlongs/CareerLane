@@ -9,11 +9,7 @@
                 Failed to load company data.
             </div>
             <div v-else class="space-y-4">
-                <CompanyCard
-                    v-for="company in companies"
-                    :key="company.id"
-                    :company="company"
-                />
+                <CompanyCard v-for="company in companies" :key="company.id" :company="company" />
             </div>
         </div>
     </div>
@@ -36,7 +32,6 @@ async function fetchCompanies() {
                 credentials: "include",
             }
         );
-        console.log(companiesResponse.value.data);
         if (companiesResponse.value.success && companiesResponse.value.data) {
             companies.value = companiesResponse.value.data;
         } else {

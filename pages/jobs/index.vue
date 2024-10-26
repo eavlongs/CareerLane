@@ -24,6 +24,7 @@ definePageMeta({
 })
 
 const url = useRequestURL();
+const headers = useRequestHeaders(['cookie'])
 
 const query = ref<string>(url.searchParams.get("q") ?? '');
 const resultName = ref<string>(query.value ? `Search Results for "${query.value}"` : "Results");
@@ -50,8 +51,9 @@ const fetchJobs = async () => {
             q: query.value,
             page: jobsPaginationMetaData.value.current_page,
             limit: jobsPaginationMetaData.value.per_page
-        }
-    })
+        },
+        headers
+    });
 
     if (data.value.success) {
         jobs.value = data.value.data!.jobs;
