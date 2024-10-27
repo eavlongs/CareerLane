@@ -24,6 +24,7 @@ export const lucia = new Lucia(customAdapter, {
                       }`
                     : attributes.company_name,
             providers_linked: attributes.providers_linked,
+            is_verified: attributes.is_verified,
         };
     },
 });
@@ -45,4 +46,5 @@ interface DatabaseUserAttributes {
     company_name?: string;
     providers_linked?: number[];
     provider_id: string;
+    is_verified?: boolean;
 }

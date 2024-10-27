@@ -2,21 +2,21 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const user = useUser();
     const data = await useRequestFetch()("/api/user");
 
-    let isLoggedIn = false;
-
     if (data) {
         user.value = data;
-
-        isLoggedIn = true;
     }
-
     if (
-        isLoggedIn &&
+        user.value &&
         ["/login", "/register", "/register-company"].includes(to.path)
     ) {
         return navigateTo("/");
     }
-    if (!isLoggedIn && to.path.startsWith("/c/")) {
-        return navigateTo("/login");
+    if (to.path.startsWith("/c/")) {
+        if (!user.value) {
+            return navigateTo("/login");
+        }
+        if (user.value.role != UserTypeEnum.Company) {
+            return navigateTo("/");
+        }
     }
 });

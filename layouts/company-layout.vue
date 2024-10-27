@@ -73,7 +73,4 @@ const navLinks: { name: string; path: string }[] = [
 ];
 
 const user = useUser();
-const runtimeConfig = useRuntimeConfig();
 </script>
-
-<style></style>

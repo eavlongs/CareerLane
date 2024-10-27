@@ -13,17 +13,14 @@ export default defineEventHandler(async (event) => {
         ignoreResponseError: true,
     });
 
-    console.log(response);
     if (response.success) {
         const accountId = response.data!.account_id;
         const session = await lucia.createSession(accountId, {});
-        console.log(1);
         appendHeader(
             event,
             "Set-Cookie",
             lucia.createSessionCookie(session.id).serialize()
         );
-        console.log(2);
     }
 
     return response;

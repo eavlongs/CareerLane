@@ -126,15 +126,6 @@ export type JobSearchOptions = {
     min_salary?: number;
 };
 
-export type CompanyProfile = {
-    name: string;
-    description: string;
-    logo_url: string;
-    links: string;
-    email: string;
-    is_verify: boolean;
-};
-
 export type FetchState = {
     fetched: boolean;
     fetching: boolean;
