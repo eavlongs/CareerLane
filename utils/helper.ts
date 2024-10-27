@@ -191,8 +191,9 @@ export async function linkAccount(
                 }
             );
 
+            // const text = await response.text();
+            // console.log({ text });
             const json: ApiResponse = await response.json();
-            console.log({ error: json.error });
             if (!json || !json.success) {
                 return `/c/account-management?link_type=0&link_message=${encodeURIComponent(
                     json.message ?? "Failed to link account"

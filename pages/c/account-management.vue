@@ -39,7 +39,14 @@
 
                 <ListSection :title="links[2].label" :id="links[2].to.replace('#', '')">
                     <p class="mb-4 text-sm">If you want to delete your account, click the button below.</p>
-                    <UButton color="red" to="/delete-account" size="md">Delete Account</UButton>
+                    <UButton color="red" @click="deleteAccountDialogOpen = true" size="md">
+                        Delete Account
+                    </UButton>
+
+                    <DeleteAccountDialog v-model="deleteAccountDialogOpen"
+                      @success="value => toastSuccessMessage(toast, value)"
+                      @error="value => toastErrorMessage(toast, value)" />
+
                 </ListSection>
             </div>
         </div>
@@ -92,6 +99,8 @@ const linkWithProviders: {
             linked: user.value?.providers_linked ? user.value.providers_linked.includes(ProviderTypeEnum.GITHUB) : false
         }
     ]
+
+const deleteAccountDialogOpen = ref(false)
 
 onMounted(async () => {
     if (route.query.link_type !== undefined && route.query.link_message !== undefined) {

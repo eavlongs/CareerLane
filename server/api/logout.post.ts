@@ -8,20 +8,6 @@ export default defineEventHandler(async (event) => {
     }
 
     const runtimeConfig = useRuntimeConfig();
-    const response = await $fetch<ApiResponse>(
-        `${runtimeConfig.public.apiURL}/auth/logout`,
-        {
-            method: "POST",
-        }
-    );
-
-    if (!response.success) {
-        return {
-            success: false,
-            message: response.message,
-            error: response.error,
-        };
-    }
 
     await lucia.invalidateSession(event.context.session.id);
     appendHeader(
@@ -32,6 +18,6 @@ export default defineEventHandler(async (event) => {
 
     return {
         success: true,
-        message: response.message,
+        message: "Request Successful.",
     };
 });

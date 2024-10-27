@@ -38,8 +38,6 @@ export default defineEventHandler(async (event) => {
         const runtimeConfig = useRuntimeConfig();
         const googleUser: GoogleUser = await googleUserResponse.json();
 
-        deleteCookie(event, "codeVerifier");
-
         const sessionId = getCookie(event, lucia.sessionCookieName) ?? null;
         const redirectUrl = await linkAccount(sessionId, {
             provider: ProviderTypeEnum.GOOGLE,
@@ -67,7 +65,10 @@ export default defineEventHandler(async (event) => {
             }
         );
 
+        const text = await response.text();
+        console.log({ text });
         const json = await response.json();
+
         const accountId = json.data.account_id;
 
         const session = await lucia.createSession(accountId, {});
@@ -78,10 +79,11 @@ export default defineEventHandler(async (event) => {
         );
 
         // remove google_oauth_state and codeVerifier cookies
-        // deleteCookie(event, "google_oauth_state");
+        deleteCookie(event, "google_oauth_state");
         deleteCookie(event, "codeVerifier");
         return sendRedirect(event, "/");
     } catch (e: any) {
+        console.log(e);
         // the specific error message depends on the provider
         if (e instanceof OAuth2RequestError) {
             // invalid code

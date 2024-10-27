@@ -54,7 +54,6 @@ import { type ApiResponse, type FetchState, type Province } from "~/utils/types"
 import { LOGO_MAX_FILE_SIZE, ACCEPTED_IMAGE_TYPES } from "~/utils/constants"
 
 const provinces = ref<Province[]>([]);
-const { $api } = useNuxtApp();
 
 const { data: provincesResponse } = await useAPI<
     ApiResponse<{ provinces: Province[] }>
@@ -117,9 +116,10 @@ const toast = useToast();
 
 async function signUp(e: FormSubmitEvent<Schema>) {
     formSubmissionState.value.fetching = true;
-    const response = await $api<ApiResponse>("/auth/register-company", {
+    const response = await $fetch<ApiResponse>("/api/signup-company", {
         method: "POST",
         body: new FormData(e.target as HTMLFormElement),
+        ignoreResponseError: true
     });
 
     formSubmissionState.value.fetching = false;
@@ -127,6 +127,7 @@ async function signUp(e: FormSubmitEvent<Schema>) {
     formSubmissionState.value.fetched = true;
     if (response.success) {
         navigateTo("/");
+        toast.clear()
         return
     }
     if (response.error) {

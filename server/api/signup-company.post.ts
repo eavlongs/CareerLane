@@ -1,38 +1,30 @@
+import { ApiResponse } from "~/utils/types";
+
 export default defineEventHandler(async (event) => {
     const formData = await readFormData(event);
     const runtimeConfig = useRuntimeConfig();
-    const response = await $fetch<{
-        success: boolean;
-        error?: any;
-        message: string;
-        data?: {
+    const response = await $fetch<
+        ApiResponse<{
             account_id: string;
-        };
-    }>(`${runtimeConfig.public.apiURL}/auth/register-company`, {
+        }>
+    >(`${runtimeConfig.public.apiURL}/auth/register-company`, {
         method: "POST",
         body: formData,
         ignoreResponseError: true,
     });
 
-    if (!response.success) {
-        return {
-            success: false,
-            message: response.message,
-            error: response.error,
-        };
+    console.log(response);
+    if (response.success) {
+        const accountId = response.data!.account_id;
+        const session = await lucia.createSession(accountId, {});
+        console.log(1);
+        appendHeader(
+            event,
+            "Set-Cookie",
+            lucia.createSessionCookie(session.id).serialize()
+        );
+        console.log(2);
     }
-    const accountId = response.data!.account_id;
 
-    const session = await lucia.createSession(accountId, {});
-
-    appendHeader(
-        event,
-        "Set-Cookie",
-        lucia.createSessionCookie(session.id).serialize()
-    );
-
-    return {
-        success: true,
-        message: response.message,
-    };
+    return response;
 });

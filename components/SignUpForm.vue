@@ -1,5 +1,41 @@
+<template>
+    <UCard class="w-[90%] sm:w-[390px] md:w-[420px] bg-white md:mx-auto p-4 shadow-lg">
+        <p class="font-bold text-2xl text-center mb-8">Register Account</p>
+        <UForm ref="form" :schema="schema" :state="state" @submit.prevent="signUp" class="grid gap-4" method="post">
+            <UFormGroup label="First Name" name="first_name">
+                <UInput v-model="state.first_name" placeholder="John" />
+            </UFormGroup>
+
+            <UFormGroup label="Last Name" name="last_name">
+                <UInput v-model="state.last_name" placeholder="Doe" />
+            </UFormGroup>
+            <UFormGroup label="Email" name="email">
+                <UInput placeholder="example@gmail.com" v-model="state.email" />
+            </UFormGroup>
+
+            <UFormGroup label="Password" name="password">
+                <UInput v-model="state.password" type="password" placeholder="********" />
+            </UFormGroup>
+
+            <UFormGroup label="Confirm Password" name="confirm_password">
+                <UInput v-model="state.confirm_password" type="password" placeholder="********" />
+            </UFormGroup>
+
+            <UButton type="submit" class="block mx-auto" size="lg">
+                Sign Up
+            </UButton>
+
+            <UDivider label="Or" />
+
+            <ContinueWithProvider providerLogo="/google-logo.svg" providerName="Google" href="/login/google" />
+            <ContinueWithProvider providerLogo="/facebook-logo.svg" providerName="Facebook" href="/login/facebook" />
+            <ContinueWithProvider providerLogo="/github-logo.svg" providerName="Github" href="/login/github" />
+        </UForm>
+    </UCard>
+</template>
+
 <script setup lang="ts">
-import type { FormSubmitEvent } from "#ui/types";
+import type { Form, FormSubmitEvent } from "#ui/types";
 import { z } from "zod";
 
 const state = reactive({
@@ -29,83 +65,28 @@ const schema = z
     );
 
 type Schema = z.output<typeof schema>;
+const form = ref<Form<Schema>>();
+const toast = useToast()
 
 async function signUp(e: FormSubmitEvent<Schema>) {
     e.preventDefault(); // Prevent the default form submission behavior
-    const response = await $fetch<{
-        success: boolean;
-        message: string;
-    }>("/api/signup", {
+    const response = await $fetch<ApiResponse>("/api/signup", {
         method: "POST",
         body: new FormData(e.target as HTMLFormElement),
     });
 
     if (response.success) {
         navigateTo("/");
+        toast.clear();
+        return
     }
+    if (response.error) {
+        const validationErrors = getValidationErrors(response.error);
+        if (validationErrors) {
+            form.value?.setErrors(validationErrors);
+            return;
+        }
+    }
+    toastErrorMessage(toast, response.message);
 }
 </script>
-
-<template>
-    <UCard
-        class="w-[90%] sm:w-[390px] md:w-[420px] bg-white md:mx-auto p-4 shadow-lg"
-    >
-        <p class="font-bold text-2xl text-center mb-8">Register Account</p>
-        <UForm
-            :schema="schema"
-            :state="state"
-            @submit.prevent="signUp"
-            class="grid gap-4"
-            method="post"
-        >
-            <UFormGroup label="First Name" name="first_name">
-                <UInput v-model="state.first_name" placeholder="John" />
-            </UFormGroup>
-
-            <UFormGroup label="Last Name" name="last_name">
-                <UInput v-model="state.last_name" placeholder="Doe" />
-            </UFormGroup>
-            <UFormGroup label="Email" name="email">
-                <UInput placeholder="example@gmail.com" v-model="state.email" />
-            </UFormGroup>
-
-            <UFormGroup label="Password" name="password">
-                <UInput
-                    v-model="state.password"
-                    type="password"
-                    placeholder="********"
-                />
-            </UFormGroup>
-
-            <UFormGroup label="Confirm Password" name="confirm_password">
-                <UInput
-                    v-model="state.confirm_password"
-                    type="password"
-                    placeholder="********"
-                />
-            </UFormGroup>
-
-            <UButton type="submit" class="block mx-auto" size="lg">
-                Sign Up
-            </UButton>
-
-            <UDivider label="Or" />
-
-            <ContinueWithProvider
-                providerLogo="/google-logo.svg"
-                providerName="Google"
-                href="/login/google"
-            />
-            <ContinueWithProvider
-                providerLogo="/facebook-logo.svg"
-                providerName="Facebook"
-                href="/login/facebook"
-            />
-            <ContinueWithProvider
-                providerLogo="/github-logo.svg"
-                providerName="Github"
-                href="/login/github"
-            />
-        </UForm>
-    </UCard>
-</template>
