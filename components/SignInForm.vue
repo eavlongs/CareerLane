@@ -32,10 +32,8 @@ const schema = z.object({
     password: z.string(),
 });
 const state = reactive({
-    // email: "undefined",
-    // password: undefined,
-    email: "esok@paragoniu.edu.kh",
-    password: "Helloworld",
+    email: undefined,
+    password: undefined,
 });
 
 const toast = useToast();
