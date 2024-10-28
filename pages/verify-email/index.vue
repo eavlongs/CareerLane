@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col items-center justify-center h-screen">
+    <div class="flex flex-col items-center justify-center h-[calc(100vh-4rem-4rem)]">
         <h1 class="text-2xl font-semibold mb-6">PLease verify your email</h1>
 
         <!-- Display the success or error message -->
@@ -22,6 +22,7 @@ import { computed, ref } from "vue";
 definePageMeta({
     layout: "company-layout",
 });
+
 const message = ref("");
 const { $api } = useNuxtApp();
 const fetchState = ref<FetchState>(DEFAULT_FETCH_STATE)

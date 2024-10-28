@@ -10,6 +10,11 @@
                 <UInput type="password" v-model="state.password" placeholder="********" />
             </UFormGroup>
 
+
+            <ULink class="text-sm block ml-auto hover:underline" to="forgot-password">Forgot
+                Password?</ULink>
+
+
             <UButton type="submit" class="block mx-auto" size="lg">
                 Log In
             </UButton>
